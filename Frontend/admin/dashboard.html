@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Administrateur — MonExamen</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+</head>
+<body>
+  <!-- Global background managed in main.css body -->
+
+  <div class="dash-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="../index.html" class="logo">
+          <div class="logo-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <span class="logo-text">Mon<span class="logo-accent">Examen</span></span>
+        </a>
+      </div>
+      <nav class="sidebar-nav">
+        <span class="nav-section-label">Navigation</span>
+        <button class="nav-item active" onclick="showPage('home')" id="nav-home">
+          <span class="nav-icon"><i class="fas fa-home"></i></span>
+          Tableau de bord
+        </button>
+        <button class="nav-item" onclick="showPage('add')" id="nav-add">
+          <span class="nav-icon"><i class="fas fa-plus-circle"></i></span>
+          Ajouter un document
+        </button>
+        <button class="nav-item" onclick="showPage('my-docs')" id="nav-my-docs">
+          <span class="nav-icon"><i class="fas fa-file-invoice"></i></span>
+          Mes documents
+        </button>
+        <span class="nav-section-label" style="margin-top:8px">Compte</span>
+        <button class="nav-item" onclick="showPage('profile')" id="nav-profile">
+          <span class="nav-icon"><i class="fas fa-user"></i></span>
+          Mon profil
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="user-avatar" id="sidebarAvatar">A</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebarName">Admin</div>
+            <div class="user-role">Administrateur</div>
+          </div>
+          <button class="logout-btn" onclick="Auth.logout()" title="Se déconnecter">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <main class="dash-main">
+      <div class="dash-topbar">
+        <div class="flex items-center gap-3">
+          <button class="menu-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+          </button>
+          <span class="topbar-title" id="topbarTitle">Tableau de bord</span>
+        </div>
+        <div class="topbar-right">
+          <span class="badge badge-primary">Administrateur</span>
+        </div>
+      </div>
+
+      <div class="dash-content">
+
+        <!-- HOME -->
+        <div class="dash-page active" id="page-home">
+          <div class="welcome-banner">
+            <div>
+              <div class="welcome-title" id="welcomeTitle">Bienvenue <i class="fas fa-hand-sparkles"></i></div>
+              <div class="welcome-sub">Soumettez des documents pour validation par le super administrateur.</div>
+            </div>
+            <button class="btn btn-primary" onclick="showPage('add')">
+              <i class="fas fa-plus"></i>
+              Ajouter un document
+            </button>
+          </div>
+          <div class="stats-row" id="homeStats"></div>
+          <div>
+            <div class="dash-section-header" style="margin-bottom:16px">
+              <h2 class="dash-section-title">Documents récents soumis</h2>
+              <button class="btn btn-outline btn-sm" onclick="showPage('my-docs')">Voir tout</button>
+            </div>
+            <div class="data-table-wrap">
+              <table class="data-table">
+                <thead><tr><th>Titre</th><th>Type</th><th>Promotion</th><th>Statut</th><th>Date</th></tr></thead>
+                <tbody id="recentTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADD DOC -->
+        <div class="dash-page" id="page-add">
+          <div class="dash-section-header">
+            <h2 class="dash-section-title">Ajouter un document</h2>
+          </div>
+          <div style="max-width:640px">
+            <form id="addDocForm" onsubmit="handleAddDoc(event)" style="display:flex;flex-direction:column;gap:18px">
+              <div class="glass-card" style="padding:24px;display:flex;flex-direction:column;gap:18px">
+                <div class="form-group">
+                  <label class="form-label" for="docTitle">Titre du document *</label>
+                  <input id="docTitle" type="text" class="form-control" placeholder="Ex: Examen Final — Algorithmique" required />
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                  <div class="form-group">
+                    <label class="form-label" for="docType">Type *</label>
+                    <select id="docType" class="form-control" required>
+                      <option value="">-- Type --</option>
+                      <option value="examen">Examen</option>
+                      <option value="interrogation">Interrogation</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="docPromotion">Promotion *</label>
+                    <select id="docPromotion" class="form-control" required onchange="handleDocPromoChange()">
+                      <option value="">-- Promotion --</option>
+                      <option value="preparatoire">Préparatoire</option>
+                      <option value="bac1">Bac 1</option>
+                      <option value="bac2">Bac 2</option>
+                      <option value="bac3">Bac 3</option>
+                      <option value="master1">Master 1</option>
+                      <option value="master2">Master 2</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group" id="docDeptGroup" style="display:none">
+                  <label class="form-label" for="docDepartment">Département *</label>
+                  <select id="docDepartment" class="form-control">
+                    <option value="">-- Département --</option>
+                    <option value="gi">Génie Informatique</option>
+                    <option value="ge">Génie Électrique</option>
+                    <option value="gc">Génie Civil</option>
+                    <option value="gp">Génie des Procédés</option>
+                  </select>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                  <div class="form-group">
+                    <label class="form-label" for="docSubject">Matière *</label>
+                    <input id="docSubject" type="text" class="form-control" placeholder="Ex: Algorithmique" required />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="docYear">Année académique *</label>
+                    <select id="docYear" class="form-control" required>
+                      <option value="">-- Année --</option>
+                    </select>
+                    <script>
+                      (function() {
+                        const sel = document.getElementById('docYear');
+                        const now = new Date();
+                        const currentYear = now.getMonth() >= 8 ? now.getFullYear() : now.getFullYear() - 1;
+                        for (let y = currentYear; y >= 2021; y--) {
+                          const label = `${y}-${y + 1}`;
+                          sel.insertAdjacentHTML('beforeend', `<option value="${label}">${label}</option>`);
+                        }
+                      })();
+                    </script>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="docSession">Session d'examen</label>
+                  <input id="docSession" type="text" class="form-control" placeholder="Ex: Juin 2025" />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="docDesc">Description (optionnel)</label>
+                  <textarea id="docDesc" class="form-control" rows="3" placeholder="Décrivez le contenu du document..." style="resize:vertical"></textarea>
+                </div>
+              </div>
+              <div class="glass-card" style="padding:24px;display:flex;flex-direction:column;gap:14px">
+                <div class="form-label">Fichier PDF *</div>
+                <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+                  <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                  <div class="upload-text">Cliquez pour sélectionner un fichier</div>
+                  <div class="upload-hint">PDF uniquement — Maximum 20 MB</div>
+                  <div class="upload-filename hidden" id="uploadFileName"></div>
+                </div>
+                <input type="file" id="fileInput" accept=".pdf" style="display:none" onchange="handleFileSelect(this)" />
+              </div>
+              <div style="display:flex;gap:12px">
+                <button type="button" class="btn btn-outline" style="flex:1" onclick="resetForm()">Réinitialiser</button>
+                <button type="submit" class="btn btn-primary" style="flex:1" id="submitDocBtn">
+                  <i class="fas fa-paper-plane"></i>
+                  Soumettre pour validation
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- MY DOCS -->
+        <div class="dash-page" id="page-my-docs">
+          <div class="dash-section-header">
+            <h2 class="dash-section-title">Mes documents</h2>
+            <span class="badge badge-muted" id="myDocsCount">0 documents</span>
+          </div>
+          <div class="filters-bar">
+            <div class="search-wrap">
+              <span class="search-icon"><i class="fas fa-search"></i></span>
+              <input type="text" class="form-control" placeholder="Rechercher..." id="searchMyDocs" oninput="renderMyDocs()" />
+            </div>
+            <select class="form-control" id="filterMyStatus" onchange="renderMyDocs()" style="max-width:180px">
+              <option value="">Tous les statuts</option>
+              <option value="pending">En attente</option>
+              <option value="approved">Publiés</option>
+              <option value="rejected">Refusés</option>
+            </select>
+          </div>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Titre</th><th>Type</th><th>Promotion</th><th>Statut</th><th>Soumis le</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="myDocsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PROFILE -->
+        <div class="dash-page" id="page-profile">
+          <div class="dash-section-header">
+            <h2 class="dash-section-title">Mon profil</h2>
+          </div>
+          <div class="glass-card" style="padding:28px;max-width:520px" id="profileCard"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-overlay hidden" id="deleteModal">
+    <div class="modal" style="max-width:400px;text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:12px;color:var(--danger)"><i class="fas fa-trash-alt"></i></div>
+      <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:8px">Supprimer ce document ?</h3>
+      <p style="font-size:0.875rem;color:var(--text-secondary);margin-bottom:24px">Cette action est irréversible.</p>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-outline" style="flex:1" onclick="document.getElementById('deleteModal').classList.add('hidden')">Annuler</button>
+        <button class="btn btn-danger" style="flex:1" id="confirmDeleteBtn">Supprimer</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="../js/data.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>

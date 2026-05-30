@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documents — MonExamen</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/landing.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <style>
+    .docs-hero {
+      padding: 120px 20px 60px;
+      text-align: center;
+      background: linear-gradient(to bottom, rgba(6,11,24,0), var(--bg-base));
+    }
+    .filters-section {
+      padding: 20px;
+      margin-top: -40px;
+      position: sticky;
+      top: 80px;
+      z-index: 10;
+    }
+    .docs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .doc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .doc-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--primary);
+      transform: translateY(-4px);
+    }
+    .doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .doc-type-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .type-examen { background: var(--primary-glow); color: var(--primary); }
+    .type-interro { background: var(--accent-glow); color: var(--accent); }
+    .doc-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .doc-footer {
+      margin-top: auto;
+      display: flex;
+      gap: 10px;
+    }
+    .filter-bar {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: var(--bg-glass);
+      backdrop-filter: blur(20px);
+      padding: 16px;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-lg);
+    }
+    .filter-item { flex: 1; min-width: 150px; }
+    .doc-categories {
+      max-width: 1000px;
+      margin: -20px auto 20px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      position: relative;
+      z-index: 11;
+    }
+    .category-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .category-card:hover, .category-card.active {
+      border-color: var(--primary);
+      background: var(--bg-card-hover);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .category-card.active {
+      background: var(--primary-glow);
+    }
+    .category-icon { font-size: 2.5rem; }
+    .category-title { font-size: 1.2rem; font-weight: 800; font-family: var(--font-heading); }
+  </style>
+</head>
+<body>
+  <div class="grid-pattern"></div>
+  <div class="bg-orb bg-orb-1"></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <span class="logo-text">Mon<span class="logo-accent">Examen</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Accueil</a>
+        <a href="documents.html" class="nav-link active">Documents</a>
+        <a href="departments.html" class="nav-link">Départements</a>
+        <a href="about.html" class="nav-link">À propos</a>
+      </div>
+      <div class="nav-actions" id="navActions">
+        <a href="login.html" class="btn btn-outline btn-sm">Se connecter</a>
+      </div>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html" class="mobile-link">Accueil</a>
+    <a href="documents.html" class="mobile-link active">Documents</a>
+    <a href="departments.html" class="mobile-link">Départements</a>
+    <a href="about.html" class="mobile-link">À propos</a>
+    <div class="mobile-actions" id="mobileActions">
+      <a href="login.html" class="btn btn-outline w-full">Se connecter</a>
+    </div>
+  </div>
+
+  <header class="docs-hero">
+    <div class="hero-badge anim-fade-up">
+      <span class="badge badge-primary"><i class="fas fa-book-bookmark" style="margin-right:6px"></i> Bibliothèque Académique</span>
+    </div>
+    <h1 class="hero-title anim-fade-up" style="font-size: 2.5rem; margin-top: 10px">Tous les documents</h1>
+    <p class="hero-desc anim-fade-up" id="promoInfo">Explorez les examens et interrogations classés pour votre promotion.</p>
+  </header>
+
+  <section class="doc-categories anim-fade-up" style="animation-delay: 0.15s">
+    <div class="category-card" id="cat-examen" onclick="setDocType('examen')">
+      <div class="category-icon"><i class="fas fa-file-alt"></i></div>
+      <div class="category-title">Examens</div>
+    </div>
+    <div class="category-card" id="cat-interrogation" onclick="setDocType('interrogation')">
+      <div class="category-icon"><i class="fas fa-pen-to-square"></i></div>
+      <div class="category-title">Interrogations</div>
+    </div>
+  </section>
+
+  <section class="filters-section anim-fade-up" style="animation-delay: 0.2s">
+    <div class="filter-bar">
+      <div class="filter-item">
+        <input type="text" id="searchDocs" class="form-control" placeholder="Rechercher un cours..." oninput="filterDocuments()">
+      </div>
+      <div class="filter-item">
+        <select id="filterType" class="form-control" onchange="filterDocuments()">
+          <option value="">Tous les types</option>
+          <option value="examen">Examens</option>
+          <option value="interrogation">Interrogations</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <select id="filterDept" class="form-control" onchange="filterDocuments()">
+          <option value="">Tous les départements</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <select id="filterYear" class="form-control" onchange="filterDocuments()">
+          <option value="">Toutes les années</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <main class="docs-grid" id="docsGrid">
+    <!-- Documents will be rendered here -->
+  </main>
+
+  <div class="modal-overlay hidden" id="docModal" onclick="closeModal(event)">
+    <div class="modal" id="docModalContent"></div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/student.js"></script>
+  <script>
+    const user = Auth.getCurrentUser();
+    if (user && user.role === 'student') {
+      document.getElementById('promoInfo').textContent = `Contenus filtrés pour : ${getPromotionLabel(user.promotion_id)}`;
+    }
+
+    // Populate filters on load
+    window.addEventListener('DOMContentLoaded', async () => {
+      let docs = [];
+      if (user && user.role === 'student') {
+        docs = await API.getDocumentsForPromotion(user.promotion_id);
+      } else {
+        docs = await API.getDocuments();
+        docs = docs.filter(d => d.status === 'approved');
+      }
+      window._loadedDocs = docs;
+
+      const years = [...new Set(docs.map(d => d.year).filter(Boolean))].sort().reverse();
+      const yearSelect = document.getElementById('filterYear');
+      years.forEach(y => {
+        const opt = document.createElement('option');
+        opt.value = y; opt.textContent = y;
+        yearSelect.appendChild(opt);
+      });
+
+      const deptSelect = document.getElementById('filterDept');
+      Object.keys(DEPARTMENTS).forEach(id => {
+        const opt = document.createElement('option');
+        opt.value = id; opt.textContent = DEPARTMENTS[id];
+        deptSelect.appendChild(opt);
+      });
+
+      renderDocuments();
+    });
+
+    function filterDocuments() {
+      const type = document.getElementById('filterType').value;
+      document.querySelectorAll('.category-card').forEach(c => c.classList.remove('active'));
+      if(type) {
+        const cat = document.getElementById('cat-' + type);
+        if(cat) cat.classList.add('active');
+      }
+      renderDocuments();
+    }
+
+    function setDocType(type) {
+      const select = document.getElementById('filterType');
+      if (select.value === type) {
+        select.value = ''; // Toggle off
+      } else {
+        select.value = type;
+      }
+      filterDocuments();
+    }
+
+    function renderDocuments() {
+      const grid = document.getElementById('docsGrid');
+      const query = document.getElementById('searchDocs').value.toLowerCase();
+      const type = document.getElementById('filterType').value;
+      const dept = document.getElementById('filterDept').value;
+      const year = document.getElementById('filterYear').value;
+
+      let docs = window._loadedDocs || [];
+
+      if (query) docs = docs.filter(d => d.title.toLowerCase().includes(query) || (d.subject && d.subject.toLowerCase().includes(query)));
+      if (type) docs = docs.filter(d => d.type === type);
+      if (dept) docs = docs.filter(d => d.department_id == dept);
+      if (year) docs = docs.filter(d => d.year === year);
+
+      if (docs.length === 0) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column: 1/-1">
+          <div class="empty-state-icon"><i class="fas fa-folder-open"></i></div>
+          <div class="empty-state-title">Aucun document trouvé</div>
+          <div class="empty-state-desc">Essayez de modifier vos filtres ou de rechercher un autre terme.</div>
+        </div>`;
+        return;
+      }
+
+      grid.innerHTML = docs.map(doc => buildDocCard(doc)).join('');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connexion — MonExamen</title>
+  <meta name="description"
+    content="Connectez-vous ou créez votre compte sur MonExamen pour accéder aux anciens examens universitaires." />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+</head>
+
+<body>
+  <!-- Global background managed in main.css body -->
+
+  <div class="auth-wrapper">
+    <!-- LEFT PANEL -->
+    <div class="auth-left">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <span class="logo-text">Mon<span class="logo-accent">Examen</span></span>
+      </a>
+      <div class="auth-left-content">
+        <h2 class="auth-left-title">La révision <span class="text-gradient">intelligente</span></h2>
+        <p class="auth-left-desc">Accédez à des centaines d'examens et d'interrogations organisés par promotion et
+          département.</p>
+        <div class="auth-features">
+          <div class="auth-feat"><span class="auth-feat-icon"><i class="fas fa-shield-check"></i></span> Accès sécurisé
+            par promotion</div>
+          <div class="auth-feat"><span class="auth-feat-icon"><i class="fas fa-file-signature"></i></span> Documents
+            validés par les administrateurs</div>
+          <div class="auth-feat"><span class="auth-feat-icon"><i class="fas fa-cloud-arrow-down"></i></span>
+            Téléchargement PDF gratuit</div>
+        </div>
+      </div>
+      <div class="auth-left-deco"></div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="auth-right">
+      <!-- TABS -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Se connecter</button>
+        <button class="auth-tab" id="tabRegister" onclick="switchTab('register')">Créer un compte</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form class="auth-form" id="loginForm" onsubmit="handleLogin(event)">
+        <div class="auth-form-header">
+          <h1 class="auth-form-title">Bon retour <i class="fas fa-hand-wave"
+              style="color:var(--primary);font-size:1.2rem"></i></h1>
+          <p class="auth-form-desc">Connectez-vous pour accéder à vos documents</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="loginEmail">Adresse email</label>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <i class="fas fa-envelope"></i>
+            </span>
+            <input id="loginEmail" type="email" class="form-control" placeholder="email@exemple.cd" required
+              autocomplete="email" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="loginPassword">Mot de passe</label>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <i class="fas fa-lock"></i>
+            </span>
+            <input id="loginPassword" type="password" class="form-control" placeholder="Votre mot de passe" required
+              autocomplete="current-password" />
+            <button type="button" class="toggle-pass" onclick="togglePassword('loginPassword', this)"
+              aria-label="Afficher/masquer">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+
+
+        <button type="submit" class="btn btn-primary w-full btn-lg" id="loginBtn">
+          <span class="btn-text">Se connecter</span>
+          <div class="spinner hidden" id="loginSpinner"></div>
+        </button>
+
+        <p class="auth-switch">Pas encore de compte ? <button type="button" onclick="switchTab('register')"
+            class="auth-switch-link">Créer un compte</button></p>
+      </form>
+
+      <!-- REGISTER FORM -->
+      <form class="auth-form hidden" id="registerForm" onsubmit="handleRegister(event)">
+        <div class="auth-form-header">
+          <h1 class="auth-form-title">Créer un compte</h1>
+          <p class="auth-form-desc">Rejoignez la plateforme en quelques secondes</p>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label" for="regFirstName">Nom</label>
+            <input id="regFirstName" type="text" class="form-control" placeholder="entre votre nom" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="regLastName">Prénom</label>
+            <input id="regLastName" type="text" class="form-control" placeholder="entre votre nom" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="regEmail">Adresse email</label>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <i class="fas fa-envelope"></i>
+            </span>
+            <input id="regEmail" type="email" class="form-control" placeholder="@gmail.com" required
+              autocomplete="email" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="regPromotion">Promotion</label>
+          <select id="regPromotion" class="form-control" required onchange="handlePromoChange()">
+            <option value="">-- Sélectionnez votre promotion --</option>
+            <option value="1">Préparatoire</option>
+            <option value="2">Bac 1</option>
+            <option value="3">Bac 2</option>
+            <option value="4">Bac 3</option>
+            <option value="5">Master 1</option>
+            <option value="6">Master 2</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="deptGroup" style="display:none">
+          <label class="form-label" for="regDepartment">Département</label>
+          <select id="regDepartment" class="form-control">
+            <option value="">-- Sélectionnez votre département --</option>
+            <option value="1">Génie Informatique</option>
+            <option value="2">Génie Électrique</option>
+            <option value="3">Génie Civil</option>
+            <option value="4">Génie des Procédés</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="regPassword">Mot de passe</label>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <i class="fas fa-lock"></i>
+            </span>
+            <input id="regPassword" type="password" class="form-control" placeholder="Minimum 6 caractères" required
+              minlength="6" autocomplete="new-password" />
+            <button type="button" class="toggle-pass" onclick="togglePassword('regPassword', this)"
+              aria-label="Afficher/masquer">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div class="pass-strength" id="passStrength"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="regConfirm">Confirmer le mot de passe</label>
+          <input id="regConfirm" type="password" class="form-control" placeholder="Répétez le mot de passe" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary w-full btn-lg" id="registerBtn">
+          <span class="btn-text">Créer mon compte</span>
+          <div class="spinner hidden" id="regSpinner"></div>
+        </button>
+
+        <p class="auth-switch">Déjà un compte ? <button type="button" onclick="switchTab('login')"
+            class="auth-switch-link">Se connecter</button></p>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="js/data.js"></script>
+  <script>
+    // ── Tab switching ────────────────────────────────────
+    function switchTab(tab) {
+      const isLogin = tab === 'login';
+      document.getElementById('loginForm').classList.toggle('hidden', !isLogin);
+      document.getElementById('registerForm').classList.toggle('hidden', isLogin);
+      document.getElementById('tabLogin').classList.toggle('active', isLogin);
+      document.getElementById('tabRegister').classList.toggle('active', !isLogin);
+    }
+
+    // Check URL hash on load
+    if (window.location.hash === '#register') switchTab('register');
+
+    // ── Toggle Password ──────────────────────────────────
+    function togglePassword(inputId, btn) {
+      const input = document.getElementById(inputId);
+      input.type = input.type === 'password' ? 'text' : 'password';
+      btn.style.opacity = input.type === 'text' ? '1' : '0.5';
+    }
+
+
+    // ── Promotion change ─────────────────────────────────
+    function handlePromoChange() {
+      const promo = document.getElementById('regPromotion').value;
+      const deptGroup = document.getElementById('deptGroup');
+      const deptSelect = document.getElementById('regDepartment');
+      if (promo && promo !== '1') {
+        deptGroup.style.display = 'block';
+        deptSelect.required = true;
+      } else {
+        deptGroup.style.display = 'none';
+        deptSelect.required = false;
+        deptSelect.value = '';
+      }
+    }
+
+    // ── Password strength ────────────────────────────────
+    document.getElementById('regPassword').addEventListener('input', function () {
+      const val = this.value;
+      const bar = document.getElementById('passStrength');
+      let strength = 0;
+      if (val.length >= 6) strength++;
+      if (val.length >= 10) strength++;
+      if (/[A-Z]/.test(val)) strength++;
+      if (/[0-9]/.test(val)) strength++;
+      if (/[^A-Za-z0-9]/.test(val)) strength++;
+      const levels = ['', 'Très faible', 'Faible', 'Moyen', 'Fort', 'Très fort'];
+      const colors = ['', '#ef4444', '#f59e0b', '#f59e0b', '#10b981', '#10b981'];
+      bar.innerHTML = val ? `<div class="pass-bar"><div class="pass-fill" style="width:${strength * 20}%;background:${colors[strength]}"></div></div><span style="color:${colors[strength]};font-size:0.75rem">${levels[strength]}</span>` : '';
+    });
+
+    // ── Login handler ────────────────────────────────────
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const btn = document.getElementById('loginBtn');
+      const spinner = document.getElementById('loginSpinner');
+
+      btn.disabled = true;
+      spinner.classList.remove('hidden');
+      btn.querySelector('.btn-text').style.opacity = '0.5';
+
+      const result = await Auth.login(email, password);
+      
+      btn.disabled = false;
+      spinner.classList.add('hidden');
+      btn.querySelector('.btn-text').style.opacity = '1';
+
+      if (!result.success) {
+        showToast('error', 'Échec de connexion', result.error === 'Invalid credentials' ? 'Identifiants incorrects. Redirection vers l\'inscription...' : result.error);
+        if (result.error === 'Invalid credentials') {
+          setTimeout(() => {
+            switchTab('register');
+            document.getElementById('regEmail').value = email;
+          }, 1500);
+        }
+        return;
+      }
+      showToast('success', 'Connexion réussie', `Bienvenue, ${result.user.fullname.split(' ')[0]} !`);
+      setTimeout(() => {
+        if (result.user.role === 'student') window.location.href = 'index.html';
+        else if (result.user.role === 'admin') window.location.href = 'admin/dashboard.html';
+        else if (result.user.role === 'superadmin') window.location.href = 'superadmin/dashboard.html';
+      }, 800);
+    }
+
+    // ── Register handler ─────────────────────────────────
+    async function handleRegister(e) {
+      e.preventDefault();
+      const firstName = document.getElementById('regFirstName').value.trim();
+      const lastName = document.getElementById('regLastName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const promotion = document.getElementById('regPromotion').value;
+      const department = document.getElementById('regDepartment').value;
+      const password = document.getElementById('regPassword').value;
+      const confirm = document.getElementById('regConfirm').value;
+      const btn = document.getElementById('registerBtn');
+      const spinner = document.getElementById('regSpinner');
+
+      if (password !== confirm) { showToast('error', 'Erreur', 'Les mots de passe ne correspondent pas.'); return; }
+      if (!promotion) { showToast('error', 'Erreur', 'Veuillez sélectionner votre promotion.'); return; }
+      if (promotion !== '1' && !department) { showToast('error', 'Erreur', 'Veuillez sélectionner votre département.'); return; }
+
+      btn.disabled = true;
+      spinner.classList.remove('hidden');
+      btn.querySelector('.btn-text').style.opacity = '0.5';
+
+      try {
+        const res = await fetch('http://localhost:5000/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fullname: `${firstName} ${lastName}`,
+            email,
+            password,
+            promotion_id: promotion,
+            department_id: promotion === '1' ? null : department
+          })
+        });
+        const data = await res.json();
+        
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+        btn.querySelector('.btn-text').style.opacity = '1';
+
+        if (!res.ok) {
+          showToast('error', 'Erreur', data.message || 'Impossible de créer le compte.');
+          return;
+        }
+
+        // Save session in localStorage
+        localStorage.setItem(SESSION_KEY, JSON.stringify({
+          token: data.token,
+          userId: data.user.id,
+          role: data.user.role,
+          user: data.user
+        }));
+
+        showToast('success', 'Compte créé !', 'Connexion automatique en cours...');
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1200);
+      } catch (err) {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+        btn.querySelector('.btn-text').style.opacity = '1';
+        showToast('error', 'Erreur', 'Erreur de connexion au serveur.');
+      }
+    }
+
+    // Redirect if already logged in
+    const _user = Auth.getCurrentUser();
+    if (_user) {
+      if (_user.role === 'student') window.location.href = 'index.html';
+      else if (_user.role === 'admin') window.location.href = 'admin/dashboard.html';
+      else if (_user.role === 'superadmin') window.location.href = 'superadmin/dashboard.html';
+    }
+  </script>
+</body>
+
+</html>

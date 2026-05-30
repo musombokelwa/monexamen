@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>À propos — MonExamen</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/landing.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <style>
+    .about-hero {
+      padding: 140px 20px 80px;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .about-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px 100px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+    }
+    .about-section {
+      margin-bottom: 60px;
+    }
+    .about-section h2 {
+      color: var(--text-primary);
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .team-member {
+      text-align: center;
+    }
+    .member-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      margin: 0 auto 15px;
+      border: 2px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Global background managed in main.css body -->
+
+  <!-- NAVBAR -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <span class="logo-text">Mon<span class="logo-accent">Examen</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Accueil</a>
+        <a href="documents.html" class="nav-link">Documents</a>
+        <a href="departments.html" class="nav-link">Départements</a>
+        <a href="about.html" class="nav-link active">À propos</a>
+      </div>
+      <div class="nav-actions" id="navActions">
+        <a href="login.html" class="btn btn-outline btn-sm">Se connecter</a>
+      </div>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html" class="mobile-link">Accueil</a>
+    <a href="documents.html" class="mobile-link">Documents</a>
+    <a href="departments.html" class="mobile-link">Départements</a>
+    <a href="about.html" class="mobile-link active">À propos</a>
+    <div class="mobile-actions" id="mobileActions">
+      <a href="login.html" class="btn btn-outline w-full">Se connecter</a>
+    </div>
+  </div>
+
+  <header class="about-hero">
+    <div class="hero-badge anim-fade-up">
+      <span class="badge badge-primary"><i class="fas fa-bullseye" style="margin-right:6px"></i> Notre Mission</span>
+    </div>
+    <h1 class="hero-title anim-fade-up" style="font-size: 3rem; margin-top: 10px">Soutenir l'excellence académique</h1>
+    <p class="hero-desc anim-fade-up">MonExamen est une plateforme dédiée au partage de ressources pédagogiques universitaires pour aider les étudiants à mieux se préparer.</p>
+  </header>
+
+  <main class="about-content anim-fade-up" style="animation-delay: 0.2s">
+    <section class="about-section">
+      <h2>Pourquoi MonExamen ?</h2>
+      <p>L'accès aux archives académiques est souvent difficile et fragmenté. MonExamen centralise les anciens examens et interrogations de manière organisée, permettant aux étudiants de comprendre les attentes des professeurs et de s'exercer en conditions réelles.</p>
+    </section>
+
+    <section class="about-section">
+      <h2>Un système sécurisé</h2>
+      <p>Pour garantir l'intégrité de la plateforme, chaque document soumis par les contributeurs est minutieusement vérifié par nos administrateurs avant d'être publié. L'accès est également restreint par promotion pour assurer que chaque étudiant trouve les ressources les plus pertinentes pour son niveau actuel.</p>
+    </section>
+
+    <section class="about-section">
+      <h2>Notre équipe</h2>
+      <div class="team-grid">
+        <div class="team-member">
+          <div class="member-avatar"><i class="fas fa-user-tie"></i></div>
+          <div style="font-weight:700;color:var(--text-primary)">Jenos Mbayo</div>
+          <div style="font-size:0.85rem">Super Administrateur</div>
+        </div>
+        <div class="team-member">
+          <div class="member-avatar"><i class="fas fa-user-graduate"></i></div>
+          <div style="font-weight:700;color:var(--text-primary)">Prof. Ngozi Amara</div>
+          <div style="font-size:0.85rem">Administratrice</div>
+        </div>
+        <div class="team-member">
+          <div class="member-avatar"><i class="fas fa-users"></i></div>
+          <div style="font-weight:700;color:var(--text-primary)">Partenaires</div>
+          <div style="font-size:0.85rem">Écosystème MonExamen</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CODEUR X SECTION -->
+    <section class="about-section" id="codeur-x" style="margin-top:100px;padding-top:60px;border-top:1px solid var(--border)">
+      <div style="text-align:center;margin-bottom:60px">
+        <span class="section-tag" style="margin-bottom:16px">Propulsé par l'excellence</span>
+        <h2 style="font-size:2.5rem;margin-bottom:16px">À propos de l'équipe <span class="text-gradient">Codeur X</span></h2>
+        <p style="max-width:600px;margin:0 auto">Codeur X est une équipe de passionnés dédiée à la transformation numérique et à la création de solutions technologiques innovantes.</p>
+      </div>
+
+      <div class="glass-card" style="padding:40px;margin-bottom:40px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:-50px;right:-50px;width:200px;height:200px;background:var(--primary-glow);filter:blur(60px);opacity:0.3;border-radius:50%"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center" class="grid-1-mobile">
+          <div>
+            <h3 style="font-size:1.5rem;margin-bottom:20px;color:var(--text-primary)">Une expertise multidimensionnelle</h3>
+            <p style="margin-bottom:24px">Composée de profils <strong>expérimentés et fiables</strong>, l'équipe Codeur X met son savoir-faire au service de projets ambitieux. Notre mission première est simple : <strong>votre satisfaction totale</strong> à travers des produits d'exception.</p>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div class="auth-feat"><i class="fas fa-check-circle" style="color:var(--primary)"></i> Développement Web Haute Performance</div>
+              <div class="auth-feat"><i class="fas fa-check-circle" style="color:var(--primary)"></i> Applications Mobiles Natives & Cross-plateform</div>
+              <div class="auth-feat"><i class="fas fa-check-circle" style="color:var(--primary)"></i> Design UI/UX Moderne & Intuitif</div>
+              <div class="auth-feat"><i class="fas fa-check-circle" style="color:var(--primary)"></i> Solutions Numériques Modernes</div>
+              <div class="auth-feat"><i class="fas fa-check-circle" style="color:var(--primary)"></i> Innovation Technologique & R&D</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+            <div class="glass-card" style="padding:20px;text-align:center;border-color:var(--primary-glow)">
+              <i class="fas fa-code" style="font-size:1.5rem;color:var(--primary);margin-bottom:10px"></i>
+              <div style="font-weight:700;font-size:0.9rem">Web</div>
+            </div>
+            <div class="glass-card" style="padding:20px;text-align:center">
+              <i class="fas fa-mobile-alt" style="font-size:1.5rem;color:var(--accent);margin-bottom:10px"></i>
+              <div style="font-weight:700;font-size:0.9rem">Mobile</div>
+            </div>
+            <div class="glass-card" style="padding:20px;text-align:center">
+              <i class="fas fa-bezier-curve" style="font-size:1.5rem;color:var(--success);margin-bottom:10px"></i>
+              <div style="font-weight:700;font-size:0.9rem">UI/UX</div>
+            </div>
+            <div class="glass-card" style="padding:20px;text-align:center">
+              <i class="fas fa-lightbulb" style="font-size:1.5rem;color:yellow;margin-bottom:10px"></i>
+              <div style="font-weight:700;font-size:0.9rem">Innovation</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:80px">
+        <h3 style="text-align:center;margin-bottom:40px;font-size:1.8rem">Pourquoi nous choisir ?</h3>
+        <div class="features-grid">
+          <div class="feature-card glass-card">
+            <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
+            <h4 class="feature-title">Fiabilité</h4>
+            <p class="feature-desc">Nous respectons nos engagements et livrons des solutions robustes testées rigoureusement.</p>
+          </div>
+          <div class="feature-card glass-card">
+            <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+            <h4 class="feature-title">Rapidité</h4>
+            <p class="feature-desc">Une méthodologie agile pour des cycles de développement courts et efficaces.</p>
+          </div>
+          <div class="feature-card glass-card">
+            <div class="feature-icon"><i class="fas fa-medal"></i></div>
+            <h4 class="feature-title">Qualité Premium</h4>
+            <p class="feature-desc">Chaque pixel et chaque ligne de code sont soignés pour offrir une expérience haut de gamme.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/data.js"></script>
+
+  <script src="js/student.js"></script>
+</body>
+</html>

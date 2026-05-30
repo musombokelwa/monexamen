@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Départements — MonExamen</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/landing.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <style>
+    .dept-hero {
+      padding: 120px 20px 60px;
+      text-align: center;
+    }
+    .dept-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+    }
+    .dept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+    .dept-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      text-align: center;
+      transition: var(--transition-slow);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .dept-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--primary);
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-glow);
+    }
+    .dept-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+    .dept-name {
+      font-size: 1.25rem;
+      font-weight: 800;
+      font-family: var(--font-heading);
+      margin-bottom: 12px;
+    }
+    .dept-count {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      background: var(--border);
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      display: inline-block;
+    }
+    .dept-card::after {
+      content: '→';
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      font-size: 1.2rem;
+      opacity: 0;
+      transition: var(--transition);
+      transform: translateX(-10px);
+    }
+    .dept-card:hover::after {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .promo-filter {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+    .promo-btn {
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    .promo-btn.active {
+      background: var(--primary);
+      color: #000;
+      border-color: var(--primary);
+    }
+    .results-section {
+      margin-top: 60px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-pattern"></div>
+  <div class="bg-orb bg-orb-3"></div>
+
+  <!-- NAVBAR -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <span class="logo-text">Mon<span class="logo-accent">Examen</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Accueil</a>
+        <a href="documents.html" class="nav-link">Documents</a>
+        <a href="departments.html" class="nav-link active">Départements</a>
+        <a href="about.html" class="nav-link">À propos</a>
+      </div>
+      <div class="nav-actions" id="navActions">
+        <a href="login.html" class="btn btn-outline btn-sm">Se connecter</a>
+      </div>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html" class="mobile-link">Accueil</a>
+    <a href="documents.html" class="mobile-link">Documents</a>
+    <a href="departments.html" class="mobile-link active">Départements</a>
+    <a href="about.html" class="mobile-link">À propos</a>
+    <div class="mobile-actions" id="mobileActions">
+      <a href="login.html" class="btn btn-outline w-full">Se connecter</a>
+    </div>
+  </div>
+
+  <header class="dept-hero">
+    <div class="hero-badge anim-fade-up">
+      <span class="badge badge-accent"><i class="fas fa-sitemap" style="margin-right:6px"></i> Organisation Académique</span>
+    </div>
+    <h1 class="hero-title anim-fade-up" style="font-size: 2.5rem; margin-top: 10px">Parcourir par Département</h1>
+    <p class="hero-desc anim-fade-up">Trouvez les documents spécifiques à chaque filière d'ingénierie.</p>
+  </header>
+
+  <main class="dept-container anim-fade-up" style="animation-delay: 0.2s">
+    <div class="promo-filter" id="promoFilter">
+      <!-- Promotions like Bac 1, Bac 2, etc. -->
+    </div>
+    
+    <div class="dept-grid" id="deptGrid">
+      <!-- Departments will be rendered here -->
+    </div>
+
+    <div class="results-section hidden" id="resultsSection">
+      <div class="dash-section-header">
+        <h2 class="dash-section-title" id="resultsTitle">Documents du département</h2>
+        <button class="btn btn-outline btn-sm" onclick="closeResults()">Fermer</button>
+      </div>
+      <div class="results-grid" id="resultsGrid">
+        <!-- Filtered documents -->
+      </div>
+    </div>
+  </main>
+
+  <div id="toast-container"></div>
+
+  <script src="js/data.js"></script>
+  <script>
+    const DEPT_ICONS = {
+      1: '<i class="fas fa-desktop"></i>',
+      2: '<i class="fas fa-bolt"></i>',
+      3: '<i class="fas fa-bridge"></i>',
+      4: '<i class="fas fa-flask"></i>'
+    };
+
+    let selectedPromo = 2; // Bac 1 default
+    let selectedDept = null;
+    let allDocs = [];
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      allDocs = await API.getDocuments();
+      window._loadedDocs = allDocs;
+      renderPromos();
+      renderDepts();
+    });
+
+    function renderPromos() {
+      const filter = document.getElementById('promoFilter');
+      const promos = PROMOTIONS.filter(p => p.id !== 1); // 1 = preparatoire
+      filter.innerHTML = promos.map(p => `
+        <button class="promo-btn ${selectedPromo === p.id ? 'active' : ''}" onclick="selectPromo('${p.id}')">
+          ${p.label}
+        </button>
+      `).join('');
+    }
+
+    function selectPromo(id) {
+      selectedPromo = id;
+      selectedDept = null;
+      document.getElementById('resultsSection').classList.add('hidden');
+      renderPromos();
+      renderDepts();
+    }
+
+    function selectDept(id) {
+      selectedDept = id;
+      renderDepts();
+      renderResults();
+    }
+
+    function renderDepts() {
+      const grid = document.getElementById('deptGrid');
+      const docs = window._loadedDocs.filter(d => d.status === 'approved' && d.promotion_id == selectedPromo);
+
+      // Reorder departments: selected one first
+      const deptIds = Object.keys(DEPARTMENTS);
+      let orderedDepts = [...deptIds];
+      if (selectedDept) {
+        orderedDepts = [selectedDept, ...deptIds.filter(id => id !== selectedDept)];
+      }
+
+      grid.innerHTML = orderedDepts.map(id => {
+        const count = docs.filter(d => d.department_id == id).length;
+        return `
+          <div class="dept-card ${selectedDept == id ? 'active' : ''}" onclick="selectDept(${id})">
+            <span class="dept-icon">${DEPT_ICONS[id] || '<i class="fas fa-building"></i>'}</span>
+            <div class="dept-name">${DEPARTMENTS[id]}</div>
+            <div class="dept-count">${count} documents</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderResults() {
+      const section = document.getElementById('resultsSection');
+      const grid = document.getElementById('resultsGrid');
+      const title = document.getElementById('resultsTitle');
+
+      const docs = window._loadedDocs.filter(d => 
+        d.status === 'approved' && 
+        d.promotion_id == selectedPromo && 
+        d.department_id == selectedDept
+      );
+
+      title.textContent = `Documents : ${DEPARTMENTS[selectedDept]} (${getPromotionLabel(selectedPromo)})`;
+      
+      if (docs.length === 0) {
+        grid.innerHTML = '<div class="empty-state"><div class="empty-state-title">Aucun document pour ce département.</div></div>';
+      } else {
+        grid.innerHTML = docs.map(doc => buildDocCard(doc)).join('');
+      }
+
+      section.classList.remove('hidden');
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function closeResults() {
+      selectedDept = null;
+      document.getElementById('resultsSection').classList.add('hidden');
+      renderDepts();
+    }
+  </script>
+  <script src="js/student.js"></script>
+</body>
+</html>

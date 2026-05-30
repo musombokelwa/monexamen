@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Super Administrateur — MonExamen</title>
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+</head>
+
+<body>
+  <!-- Global background managed in main.css body -->
+
+  <div class="dash-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="../index.html" class="logo">
+          <div class="logo-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <span class="logo-text">Mon<span class="logo-accent">Examen</span></span>
+        </a>
+      </div>
+      <nav class="sidebar-nav">
+        <span class="nav-section-label">Navigation</span>
+        <button class="nav-item active" onclick="showPage('home')" id="nav-home">
+          <span class="nav-icon"><i class="fas fa-home"></i></span>
+          Tableau de bord
+        </button>
+        <button class="nav-item" onclick="showPage('pending')" id="nav-pending">
+          <span class="nav-icon"><i class="fas fa-clock"></i></span>
+          En attente
+          <span class="nav-badge danger" id="pendingBadge">0</span>
+        </button>
+        <button class="nav-item" onclick="showPage('all-docs')" id="nav-all-docs">
+          <span class="nav-icon"><i class="fas fa-list"></i></span>
+          Tous les documents
+        </button>
+        <span class="nav-section-label" style="margin-top:8px">Gestion</span>
+        <button class="nav-item" onclick="showPage('users')" id="nav-users">
+          <span class="nav-icon"><i class="fas fa-users"></i></span>
+          Utilisateurs
+        </button>
+        <button class="nav-item" onclick="showPage('logs')" id="nav-logs">
+          <span class="nav-icon"><i class="fas fa-history"></i></span>
+          Journal d'activité
+        </button>
+        <span class="nav-section-label" style="margin-top:8px">Compte</span>
+        <button class="nav-item" onclick="showPage('profile')" id="nav-profile">
+          <span class="nav-icon"><i class="fas fa-user-shield"></i></span>
+          Mon profil
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="user-avatar" id="sidebarAvatar"
+            style="background:linear-gradient(135deg,var(--accent),var(--primary))">J</div>
+          <div class="user-info">
+            <div class="user-name" id="sidebarName">Jenos Mbayo</div>
+            <div class="user-role">Super Administrateur</div>
+          </div>
+          <button class="logout-btn" onclick="Auth.logout()" title="Se déconnecter">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+    <main class="dash-main">
+      <div class="dash-topbar">
+        <div class="flex items-center gap-3">
+          <button class="menu-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+          </button>
+          <span class="topbar-title" id="topbarTitle">Tableau de bord</span>
+        </div>
+        <div class="topbar-right">
+          <span class="badge badge-accent">Super Administrateur</span>
+        </div>
+      </div>
+
+      <div class="dash-content">
+
+        <!-- HOME -->
+        <div class="dash-page active" id="page-home">
+          <div class="welcome-banner">
+            <div>
+              <div class="welcome-title" id="welcomeTitle">Bienvenue </div>
+              <div class="welcome-sub">Gérez les documents académiques et les accès administrateurs en toute simplicité.
+              </div>
+            </div>
+            <div class="topbar-right">
+              <span class="badge badge-accent">Super Administrateur</span>
+            </div>
+          </div>
+
+          <div class="dash-section-header">
+            <h2 class="dash-section-title">Actions rapides</h2>
+          </div>
+          <div class="quick-actions-grid">
+            <div class="action-btn" onclick="showPage('pending')">
+              <div class="action-btn-icon"><i class="fas fa-clock"></i></div>
+              <div class="action-btn-label">Valider documents</div>
+            </div>
+            <div class="action-btn" onclick="openAddAdminModal()">
+              <div class="action-btn-icon"><i class="fas fa-user-plus"></i></div>
+              <div class="action-btn-label">Nouvel Admin</div>
+            </div>
+            <div class="action-btn" onclick="showPage('all-docs')">
+              <div class="action-btn-icon"><i class="fas fa-search"></i></div>
+              <div class="action-btn-label">Rechercher doc</div>
+            </div>
+            <div class="action-btn" onclick="showPage('profile')">
+              <div class="action-btn-icon"><i class="fas fa-cog"></i></div>
+              <div class="action-btn-label">Paramètres</div>
+            </div>
+          </div>
+
+          <div class="stats-row" id="homeStats"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+            <div>
+              <div class="dash-section-header" style="margin-bottom:12px">
+                <h2 class="dash-section-title">Documents en attente</h2>
+                <button class="btn btn-outline btn-sm" onclick="showPage('pending')">Voir tout</button>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:10px" id="pendingPreview"></div>
+            </div>
+            <div>
+              <div class="dash-section-header" style="margin-bottom:12px">
+                <h2 class="dash-section-title">Répartition des documents</h2>
+              </div>
+              <div class="glass-card" style="padding:20px;min-height:220px">
+                <div id="distributionChart"
+                  style="height:180px;display:flex;align-items:flex-end;gap:20px;padding-top:20px"></div>
+              </div>
+            </div>
+            <div>
+              <div class="dash-section-header" style="margin-bottom:12px">
+                <h2 class="dash-section-title">Activité récente</h2>
+              </div>
+              <div class="data-table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Document</th>
+                      <th>Statut</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recentActivity"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PENDING -->
+        <div class="dash-page" id="page-pending">
+          <div class="dash-section-header">
+            <h2 class="dash-section-title">Documents en attente de validation</h2>
+            <span class="badge badge-warning" id="pendingCount">0 documents</span>
+          </div>
+          <div id="pendingList" style="display:flex;flex-direction:column;gap:14px"></div>
+        </div>
+
+        <!-- ALL DOCS -->
+        <div class="dash-page" id="page-all-docs">
+          <div class="dash-section-header">
+            <h2 class="dash-section-title">Tous les documents</h2>
+            <span class="badge badge-muted" id="allDocsCount">0</span>
+          </div>
+          <div class="filters-bar">
+            <div class="search-wrap">
+              <span class="search-icon"><i class="fas fa-search"></i></span>
+              <input type="text" class="form-control" placeholder="Rechercher..." id="searchAllDocs"
+                oninput="renderAllDocs()" />
+            </div>
+            <select class="form-control" id="filterStatus" onchange="renderAllDocs()" style="max-width:180px">
+              <option value="">Tous les statuts</option>
+              <option value="pending">En attente</option>
+              <option value="approved">Publiés</option>
+              <option value="rejected">Refusés</option>
+            </select>
+            <select class="form-control" id="filterPromo" onchange="renderAllDocs()" style="max-width:180px">
+              <option value="">Toutes les promotions</option>
+              <option value="preparatoire">Préparatoire</option>
+              <option value="bac1">Bac 1</option>
+              <option value="bac2">Bac 2</option>
+              <option value="bac3">Bac 3</option>
+              <option value="master1">Master 1</option>
+              <option value="master2">Master 2</option>
+            </select>
+          </div>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width:40px"><input type="checkbox" id="selectAllDocs" onclick="toggleSelectAll('all')">
+                  </th>
+                  <th>Titre</th>
+                  <th>Type</th>
+                  <th>Promotion</th>
+                  <th>Statut</th>
+                  <th>Soumis par</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="allDocsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- BULK ACTIONS BAR (Global) -->
+        <div id="bulkActionsBar" class="bulk-actions-bar hidden">
+          <div class="flex items-center gap-4">
+            <span id="selectedCount" class="badge badge-primary">0 sélectionnés</span>
+            <div class="divider-v"></div>
+            <div class="flex gap-2">
+              <button class="btn btn-success btn-sm" onclick="bulkApprove()">
+                <i class="fas fa-check"></i> Approuver
+              </button>
+              <button class="btn btn-danger btn-sm" onclick="bulkDelete()">
+                <i class="fas fa-trash"></i> Supprimer
+              </button>
+            </div>
+          </div>
+          <button class="btn btn-ghost btn-sm" onclick="clearSelection()">Annuler</button>
+        </div>
+
+        <!-- USERS -->
+        <div class="dash-page" id="page-users">
+          <div class="dash-section-header">
+            <h2 class="dash-section-title">Gestion des utilisateurs et administrateurs</h2>
+            <div class="flex gap-2">
+              <span class="badge badge-muted" id="usersCount">0 utilisateurs</span>
+              <button class="btn btn-primary btn-sm" onclick="openAddAdminModal()">
+                <i class="fas fa-user-plus"></i>
+                Ajouter un administrateur
+              </button>
+            </div>
+          </div>
+          <div class="filters-bar">
+            <div class="search-wrap">
+              <span class="search-icon"><i class="fas fa-search"></i></span>
+              <input type="text" class="form-control" placeholder="Rechercher un utilisateur..." id="searchUsers"
+                oninput="renderUsers()" />
+            </div>
+            <select class="form-control" id="filterRole" onchange="renderUsers()" style="max-width:180px">
+              <option value="">Tous les rôles</option>
+              <option value="student">Étudiants</option>
+              <option value="admin">Administrateurs</option>
+              <option value="superadmin">Super Admins</option>
+            </select>
+          </div>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Email</th>
+                  <th>Rôle</th>
+                  <th>Promotion</th>
+                  <th>Inscrit le</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="usersBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- LOGS -->
+        <div class="dash-page" id="page-logs">
+          <div class="dash-section-header">
+            <h2 class="dash-section-title">Journal d'activité système</h2>
+            <button class="btn btn-outline btn-sm" onclick="clearLogs()">Effacer les logs</button>
+          </div>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Utilisateur</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="logsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PROFILE -->
+        <div class="dash-page" id="page-profile">
+          <div class="dash-section-header">
+            <h2 class="dash-section-title">Mon profil</h2>
+          </div>
+          <div class="glass-card" style="padding:28px;max-width:520px" id="profileCard"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- REJECT MODAL -->
+  <div class="modal-overlay hidden" id="rejectModal">
+    <div class="modal" style="max-width:440px">
+      <button class="modal-close" onclick="document.getElementById('rejectModal').classList.add('hidden')"><i class="fas fa-times"></i></button>
+      <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:8px">Refuser ce document</h3>
+      <p style="font-size:0.875rem;color:var(--text-secondary);margin-bottom:16px">Précisez la raison du refus
+        (optionnel).</p>
+      <div class="form-group" style="margin-bottom:16px">
+        <label class="form-label">Motif du refus</label>
+        <textarea id="rejectReason" class="form-control" rows="3"
+          placeholder="Ex: Document incomplet, mauvaise qualité..."></textarea>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-outline" style="flex:1"
+          onclick="document.getElementById('rejectModal').classList.add('hidden')">Annuler</button>
+        <button class="btn btn-danger" style="flex:1" id="confirmRejectBtn">Confirmer le refus</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD ADMIN MODAL -->
+  <div class="modal-overlay hidden" id="addAdminModal">
+    <div class="modal" style="max-width:480px">
+      <button class="modal-close" onclick="document.getElementById('addAdminModal').classList.add('hidden')"><i class="fas fa-times"></i></button>
+      <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:16px">Ajouter un Administrateur</h3>
+      <form id="addAdminForm" onsubmit="handleAddAdmin(event)">
+        <div class="form-group" style="margin-bottom:12px">
+          <label class="form-label">Nom complet</label>
+          <input type="text" id="adminName" class="form-control" placeholder="Prof. Jean Dupont" required>
+        </div>
+        <div class="form-group" style="margin-bottom:12px">
+          <label class="form-label">Adresse email</label>
+          <input type="email" id="adminEmail" class="form-control" placeholder="admin@monexamen.cd" required>
+        </div>
+        <div class="form-group" style="margin-bottom:20px">
+          <label class="form-label">Mot de passe temporaire</label>
+          <input type="password" id="adminPass" class="form-control" placeholder="••••••••" required>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button type="button" class="btn btn-outline" style="flex:1"
+            onclick="document.getElementById('addAdminModal').classList.add('hidden')">Annuler</button>
+          <button type="submit" class="btn btn-primary" style="flex:1">Créer le compte</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- EDIT USER MODAL -->
+  <div class="modal-overlay hidden" id="editUserModal">
+    <div class="modal" style="max-width:480px">
+      <button class="modal-close" onclick="document.getElementById('editUserModal').classList.add('hidden')"><i class="fas fa-times"></i></button>
+      <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:16px">Modifier l'Utilisateur</h3>
+      <form id="editUserForm" onsubmit="handleEditUser(event)">
+        <input type="hidden" id="editUserId">
+        <div class="form-group" style="margin-bottom:12px">
+          <label class="form-label">Nom complet</label>
+          <input type="text" id="editUserName" class="form-control" placeholder="Prof. Jean Dupont" required>
+        </div>
+        <div class="form-group" style="margin-bottom:12px">
+          <label class="form-label">Adresse email</label>
+          <input type="email" id="editUserEmail" class="form-control" placeholder="admin@monexamen.cd" required>
+        </div>
+        <div class="form-group" style="margin-bottom:20px">
+          <label class="form-label">Nouveau mot de passe (laisser vide pour ne pas changer)</label>
+          <input type="password" id="editUserPass" class="form-control" placeholder="••••••••">
+        </div>
+        <div style="display:flex;gap:10px">
+          <button type="button" class="btn btn-outline" style="flex:1"
+            onclick="document.getElementById('editUserModal').classList.add('hidden')">Annuler</button>
+          <button type="submit" class="btn btn-primary" style="flex:1">Enregistrer les modifications</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- DELETE MODAL -->
+  <div class="modal-overlay hidden" id="deleteModal">
+    <div class="modal" style="max-width:400px;text-align:center">
+      <div style="font-size:2.5rem;margin-bottom:12px;color:var(--danger)"><i class="fas fa-trash-alt"></i></div>
+      <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:8px">Supprimer définitivement ?</h3>
+      <p style="font-size:0.875rem;color:var(--text-secondary);margin-bottom:24px">Cette action est irréversible.</p>
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-outline" style="flex:1"
+          onclick="document.getElementById('deleteModal').classList.add('hidden')">Annuler</button>
+        <button class="btn btn-danger" style="flex:1" id="confirmDeleteBtn">Supprimer</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="../js/data.js"></script>
+  <script src="../js/superadmin.js"></script>
+</body>
+
+</html>
