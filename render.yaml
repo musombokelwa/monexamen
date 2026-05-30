@@ -2,21 +2,43 @@ services:
   - type: web
     name: monexamen-backend
     runtime: python
-    pythonVersion: 3.14
+    pythonVersion: 3.11
     rootDir: Backend
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn -w 4 -b 0.0.0.0:5000 app:app
+    startCommand: gunicorn -w 4 -b 0.0.0.0:$PORT app:app
     envVars:
       - key: FLASK_ENV
         value: production
       - key: DB_HOST
         scope: pr
         value: localhost
+      - key: DB_NAME
+        value: monexamen
+      - key: DB_USER
+        value: jenos
+      - key: SECRET_KEY
+        scope: pr
   
   - type: web
     name: monexamen-frontend
     runtime: node
     rootDir: Frontend
-    buildCommand: npm install && npm run build || echo "No build needed for static files"
-    startCommand: npm start || python3 -m http.server 80
+    buildCommand: echo "Static frontend - no build needed"
+    startCommand: npx http-server -p $PORT -c-1
     envVars: []
+  
+  - type: pserv
+    name: monexamen-db
+    runtime: mysql
+    plan: free
+    region: oregon
+    envVars:
+      - key: MYSQL_ROOT_PASSWORD
+        scope: pr
+      - key: MYSQL_DATABASE
+        value: monexamen
+      - key: MYSQL_USER
+        value: jenos
+      - key: MYSQL_PASSWORD
+        scope: pr
+
