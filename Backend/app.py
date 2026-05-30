@@ -28,6 +28,11 @@ def create_app():
     def index():
         return jsonify({"message": "Welcome to MonExamen API", "status": "running"}), 200
 
+    @app.route('/api/health', methods=['GET'])
+    def health():
+        """Health check endpoint for monitoring"""
+        return jsonify({"status": "healthy", "service": "monexamen-api"}), 200
+
     @app.errorhandler(404)
     def not_found(error):
         return jsonify({'error': 'Not found'}), 404
