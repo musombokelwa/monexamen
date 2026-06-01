@@ -2,10 +2,34 @@
    MON EXAMEN — API Data Store (Fetch to Flask Backend)
    ============================================================ */
 
-// URL dynamique de l'API: détecte si on tourne en local (Live Server / Fichier direct) ou sous Docker (Nginx)
-const API_BASE_URL = (window.location.protocol === 'file:' || (window.location.port && window.location.port !== '80' && window.location.port !== '8080' && window.location.port !== '443'))
-  ? 'http://localhost:5000/api'
-  : `${window.location.origin}/api`;
+// Environment Detection for API URL
+let API_BASE_URL;
+
+console.log('🔧 API Configuration:');
+console.log('  Protocol:', window.location.protocol);
+console.log('  Hostname:', window.location.hostname);
+console.log('  Port:', window.location.port);
+
+if (window.location.protocol === 'file:' || window.location.port === '3000' || window.location.port === '5173') {
+    // Local development
+    API_BASE_URL = 'http://localhost:5000/api';
+    console.log('  Environment: LOCAL DEVELOPMENT');
+} else if (window.location.hostname.includes('onrender.com')) {
+    // Render production
+    API_BASE_URL = 'https://monexamen-backend.onrender.com/api';
+    console.log('  Environment: RENDER PRODUCTION');
+} else if (window.location.hostname === 'localhost') {
+    // Docker local
+    API_BASE_URL = 'http://localhost:5000/api';
+    console.log('  Environment: DOCKER LOCAL');
+} else {
+    // Fallback to same domain
+    API_BASE_URL = '/api';
+    console.log('  Environment: SAME DOMAIN');
+}
+
+console.log('  API_BASE_URL:', API_BASE_URL);
+console.log('✅ Configuration complete\n');
 
 const PROMOTIONS = [
   { id: 1, label: 'Préparatoire', departments: null },

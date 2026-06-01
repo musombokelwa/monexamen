@@ -1,4 +1,24 @@
 services:
+  # Database Service (MUST be first!)
+  - type: pserv
+    name: monexamen-db
+    runtime: mysql
+    plan: free
+    region: oregon
+    autoDeploy: false
+    envVars:
+      - key: MYSQL_ROOT_PASSWORD
+        scope: pr
+        value: 1234
+      - key: MYSQL_DATABASE
+        value: monexamenn
+      - key: MYSQL_USER
+        value: jenos
+      - key: MYSQL_PASSWORD
+        scope: pr
+        value: 1234
+  
+  # Backend API Service
   - type: web
     name: monexamen-backend
     runtime: python
@@ -6,39 +26,32 @@ services:
     rootDir: Backend
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn -w 4 -b 0.0.0.0:$PORT app:app
+    autoDeploy: true
+    region: ohio
     envVars:
       - key: FLASK_ENV
         value: production
       - key: DB_HOST
         scope: pr
-        value: localhost
+        value: monexamen-db.render.internal
       - key: DB_NAME
-        value: monexamen
+        value: monexamenn
       - key: DB_USER
         value: jenos
+      - key: DB_PASSWORD
+        scope: pr
+        value: 1234
       - key: SECRET_KEY
         scope: pr
   
+  # Frontend Service
   - type: web
     name: monexamen-frontend
     runtime: node
     rootDir: Frontend
-    buildCommand: echo "Static frontend - no build needed"
-    startCommand: npx http-server -p $PORT -c-1
+    buildCommand: echo "Static frontend"
+    startCommand: npx serve -s . -l $PORT
+    autoDeploy: true
+    region: ohio
     envVars: []
-  
-  - type: pserv
-    name: monexamen-db
-    runtime: mysql
-    plan: free
-    region: oregon
-    envVars:
-      - key: MYSQL_ROOT_PASSWORD
-        scope: pr
-      - key: MYSQL_DATABASE
-        value: monexamen
-      - key: MYSQL_USER
-        value: jenos
-      - key: MYSQL_PASSWORD
-        scope: pr
 
