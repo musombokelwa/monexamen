@@ -34,7 +34,7 @@ COPY --from=backend-builder /usr/local/bin/gunicorn /usr/local/bin/gunicorn
 COPY --from=backend-builder /app/backend /app/backend
 
 # Installer Python dans l'image finale
-RUN apk add --no-cache python3.11 py3-pip py3-wheel
+RUN apk add --no-cache python3 py3-pip
 
 # Créer un script de démarrage qui lance à la fois Nginx et Flask
 RUN mkdir -p /app/scripts
