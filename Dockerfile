@@ -33,14 +33,12 @@ COPY --from=backend-builder /usr/local/bin/gunicorn /usr/local/bin/gunicorn
 # Copier le code backend du stage 1
 COPY --from=backend-builder /app/backend /app/backend
 
+# Installer Python dans l'image finale
+RUN apk add --no-cache python3.11 py3-pip py3-wheel
+
 # Créer un script de démarrage qui lance à la fois Nginx et Flask
 RUN mkdir -p /app/scripts
-RUN echo '#!/bin/sh\n\
-cd /app/backend\n\
-gunicorn -w 4 -b 127.0.0.1:5000 app:app &\n\
-BACKEND_PID=$!\n\
-exec nginx -g "daemon off;"\n\
-' > /app/scripts/start.sh && chmod +x /app/scripts/start.sh
+RUN printf '#!/bin/sh\ncd /app/backend\ngunicorn -w 4 -b 127.0.0.1:5000 app:app &\nBACKEND_PID=$!\nexec nginx -g "daemon off;"\n' > /app/scripts/start.sh && chmod +x /app/scripts/start.sh
 
 # Exposer les ports
 EXPOSE 80 5000
@@ -50,4 +48,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
   CMD curl -f http://localhost/api/health || exit 1
 
 # Démarrer les services
-CMD ["/app/scripts/start.sh"]
+CMD ["/bin/sh", "/app/scripts/start.sh"]

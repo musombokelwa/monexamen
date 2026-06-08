@@ -2,18 +2,17 @@ version: '3.8'
 
 services:
   db:
-    image: mysql:8.0
+    image: postgres:16-alpine
     container_name: monexamen_db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: Api@12345
-      MYSQL_DATABASE: monexamen
-      MYSQL_USER: jenos
-      MYSQL_PASSWORD: Api@12345
+      POSTGRES_DB: monexamen
+      POSTGRES_USER: jenos
+      POSTGRES_PASSWORD: Api@12345
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
 
   backend:
     build:
@@ -22,6 +21,7 @@ services:
     restart: always
     environment:
       - DB_HOST=db
+      - DB_PORT=5432
       - DB_NAME=monexamen
       - DB_USER=jenos
       - DB_PASSWORD=Api@12345
@@ -44,5 +44,5 @@ services:
       - backend
 
 volumes:
-  mysql_data:
+  postgres_data:
   backend_uploads:

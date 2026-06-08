@@ -1,25 +1,33 @@
 """
-MON EXAMEN — Database Connection Module (MySQL)
-Provides get_connection() for raw MySQL access and get_db() for model compatibility.
+MON EXAMEN — Database Connection Module (PostgreSQL)
+Provides get_connection() for raw PostgreSQL access and get_db() for model compatibility.
 """
 
 import os
-import mysql.connector
-from mysql.connector import Error
+import psycopg2
+from psycopg2 import Error
+from psycopg2.extras import RealDictCursor
 
 # ── Configuration ──────────────────────────────────────────
+# Support both DATABASE_URL (Render provides this) and individual vars
+DATABASE_URL = os.environ.get('DATABASE_URL')
+
 DB_CONFIG = {
     'host': os.environ.get('DB_HOST', 'localhost'),
-    'database': os.environ.get('DB_NAME', 'monexamen'),
+    'dbname': os.environ.get('DB_NAME', 'monexamen'),
     'user': os.environ.get('DB_USER', 'jenos'),
     'password': os.environ.get('DB_PASSWORD', 'Api@12345'),
+    'port': os.environ.get('DB_PORT', '5432'),
 }
 
 
 def get_connection():
-    """Get a raw MySQL connection."""
+    """Get a raw PostgreSQL connection."""
     try:
-        conn = mysql.connector.connect(**DB_CONFIG)
+        if DATABASE_URL:
+            conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+        else:
+            conn = psycopg2.connect(**DB_CONFIG)
         return conn
     except Error as e:
         print(f"Erreur lors de la connexion : {e}")
@@ -28,12 +36,12 @@ def get_connection():
 
 def get_db():
     """
-    Get a MySQL connection suitable for the models layer.
+    Get a PostgreSQL connection suitable for the models layer.
     Returns a connection object. Models should create their own cursors.
     """
     conn = get_connection()
     if not conn:
-        raise Exception("Impossible de se connecter à la base de données MySQL.")
+        raise Exception("Impossible de se connecter à la base de données PostgreSQL.")
     return conn
 
 
@@ -46,25 +54,42 @@ def execute_query(query, params=None, fetch_one=False, fetch_all=False, commit=F
     conn = get_connection()
     if not conn:
         return None
+    cursor = None
     try:
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute(query, params or ())
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
 
+        # Convert MySQL-style %s placeholders — they work in psycopg2 too,
+        # but we need to handle INSERT ... RETURNING id for lastrowid support
         if commit:
+            # For INSERT statements, add RETURNING id to get the inserted row id
+            stripped = query.strip().rstrip(';')
+            if stripped.upper().startswith('INSERT') and 'RETURNING' not in stripped.upper():
+                query = stripped + ' RETURNING id'
+            cursor.execute(query, params or ())
             conn.commit()
-            return cursor.lastrowid
-        elif fetch_one:
-            return cursor.fetchone()
-        elif fetch_all:
-            return cursor.fetchall() or []
-        return None
+            # Try to get the returned id
+            try:
+                result = cursor.fetchone()
+                return result['id'] if result else None
+            except Exception:
+                return None
+        else:
+            cursor.execute(query, params or ())
+            if fetch_one:
+                result = cursor.fetchone()
+                return dict(result) if result else None
+            elif fetch_all:
+                results = cursor.fetchall()
+                return [dict(row) for row in results] if results else []
+            return None
     except Error as e:
         print(f"Erreur SQL : {e}")
         if commit:
             conn.rollback()
         return [] if fetch_all else None
     finally:
-        cursor.close()
+        if cursor:
+            cursor.close()
         conn.close()
 
 
@@ -179,7 +204,7 @@ def get_all_logs():
 
 def add_log(action, log_type='info', user_name='Système'):
     execute_query(
-        "INSERT INTO logs (type, action, user) VALUES (%s, %s, %s)",
+        'INSERT INTO logs (type, action, "user") VALUES (%s, %s, %s)',
         (log_type, action, user_name), commit=True
     )
 
@@ -192,7 +217,7 @@ if __name__ == '__main__':
     print("--- Test de la base de données ---")
     conn = get_connection()
     if conn:
-        print("Connexion réussie à la base 'monexamen' !")
+        print("Connexion réussie à la base 'monexamen' (PostgreSQL) !")
         conn.close()
     else:
         print("Échec de la connexion.")

@@ -1,57 +1,50 @@
 services:
-  # Database Service (MUST be first!)
+  # Database Service (Render PostgreSQL)
   - type: pserv
     name: monexamen-db
-    runtime: mysql
+    runtime: docker
     plan: free
     region: oregon
-    autoDeploy: false
+    dockerfilePath: ./Dockerfile
     envVars:
-      - key: MYSQL_ROOT_PASSWORD
-        scope: pr
-        value: 1234
-      - key: MYSQL_DATABASE
-        value: monexamenn
-      - key: MYSQL_USER
-        value: jenos
-      - key: MYSQL_PASSWORD
-        scope: pr
-        value: 1234
-  
+      - key: DATABASE_URL
+        fromDatabase:
+          name: monexamen-pg
+          property: connectionString
+
   # Backend API Service
   - type: web
     name: monexamen-backend
     runtime: python
-    pythonVersion: 3.11
+    pythonVersion: "3.11"
     rootDir: Backend
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn -w 4 -b 0.0.0.0:$PORT app:app
     autoDeploy: true
-    region: ohio
+    region: oregon
     envVars:
       - key: FLASK_ENV
         value: production
-      - key: DB_HOST
-        scope: pr
-        value: monexamen-db.render.internal
-      - key: DB_NAME
-        value: monexamenn
-      - key: DB_USER
-        value: jenos
-      - key: DB_PASSWORD
-        scope: pr
-        value: 1234
+      - key: DATABASE_URL
+        fromDatabase:
+          name: monexamen-pg
+          property: connectionString
       - key: SECRET_KEY
-        scope: pr
+        generateValue: true
   
-  # Frontend Service
+  # Frontend Service (Static Site)
   - type: web
     name: monexamen-frontend
-    runtime: node
+    runtime: static
     rootDir: Frontend
     buildCommand: echo "Static frontend"
-    startCommand: npx serve -s . -l $PORT
+    staticPublishPath: .
     autoDeploy: true
-    region: ohio
+    region: oregon
     envVars: []
 
+databases:
+  - name: monexamen-pg
+    plan: free
+    region: oregon
+    postgresMajorVersion: 16

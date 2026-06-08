@@ -1,39 +1,39 @@
 import os
-import mysql.connector
-from database.db import DB_CONFIG
+import psycopg2
+from database.db import DB_CONFIG, DATABASE_URL
 from utils.helpers import hash_password
 
 def seed_database():
-    # Se connecter sans spécifier la base de données (pour pouvoir la créer)
-    config_no_db = DB_CONFIG.copy()
-    config_no_db.pop('database', None)
-    
     import time
     conn = None
+    
     for i in range(15):
         try:
-            conn = mysql.connector.connect(**config_no_db)
+            if DATABASE_URL:
+                conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+            else:
+                conn = psycopg2.connect(**DB_CONFIG)
             break
         except Exception as e:
-            print(f"Attente de MySQL... ({i+1}/15) : {e}")
+            print(f"Attente de PostgreSQL... ({i+1}/15) : {e}")
             time.sleep(2)
             
     if not conn:
-        print("Erreur de connexion MySQL initiale (limite de temps dépassée).")
+        print("Erreur de connexion PostgreSQL initiale (limite de temps dépassée).")
         return
 
+    conn.autocommit = True
     cursor = conn.cursor()
 
     # Create tables from schema
     with open('database/schema.sql', 'r') as f:
         schema = f.read()
         
-    for statement in schema.split(';'):
-        if statement.strip():
-            try:
-                cursor.execute(statement)
-            except Exception as e:
-                print(f"Erreur d'exécution: {e}")
+    try:
+        cursor.execute(schema)
+        print("Schema créé avec succès.")
+    except Exception as e:
+        print(f"Erreur schema: {e}")
 
     # Hash passwords
     superadmin_pass = hash_password('superadmin123')
@@ -48,17 +48,15 @@ def seed_database():
     seed = seed.replace('$2b$12$SEED_PLACEHOLDER_ADMIN', admin_pass)
     seed = seed.replace('$2b$12$SEED_PLACEHOLDER_STUDENT', student_pass)
 
-    for statement in seed.split(';'):
-        if statement.strip():
-            try:
-                cursor.execute(statement)
-            except Exception as e:
-                print(f"Erreur seed: {e}")
+    try:
+        cursor.execute(seed)
+        print("Données de seed insérées avec succès.")
+    except Exception as e:
+        print(f"Erreur seed: {e}")
 
-    conn.commit()
     cursor.close()
     conn.close()
-    print("Base de données MySQL (monexamen) initialisée avec succès !")
+    print("Base de données PostgreSQL (monexamen) initialisée avec succès !")
 
 if __name__ == '__main__':
     seed_database()

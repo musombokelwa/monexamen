@@ -1,4 +1,6 @@
-USE monexamen;
+-- ══════════════════════════════════════════════════════════
+-- MonExamen — Seed Data (PostgreSQL)
+-- ══════════════════════════════════════════════════════════
 
 -- ── Promotions ────────────────────────────────────────────
 INSERT INTO promotions (name) VALUES
@@ -7,14 +9,16 @@ INSERT INTO promotions (name) VALUES
 ('Bac 2'),
 ('Bac 3'),
 ('Master 1'),
-('Master 2');
+('Master 2')
+ON CONFLICT (name) DO NOTHING;
 
 -- ── Départements ──────────────────────────────────────────
 INSERT INTO departments (name) VALUES
 ('Génie Informatique'),
 ('Génie Électrique'),
 ('Génie Civil'),
-('Génie des Procédés');
+('Génie des Procédés')
+ON CONFLICT (name) DO NOTHING;
 
 -- ── Utilisateurs ──────────────────────────────────────────
 -- Mots de passe hashés avec bcrypt (valeurs réelles, générées par le backend)
@@ -25,7 +29,8 @@ INSERT INTO departments (name) VALUES
 INSERT INTO users (fullname, email, password, role, promotion_id, department_id, approved) VALUES
 ('Jenos Mbayo', 'superadmin@monexamen.cd', '$2b$12$SEED_PLACEHOLDER_SUPERADMIN', 'superadmin', NULL, NULL, 1),
 ('Prof. Ngozi Amara', 'admin@monexamen.cd', '$2b$12$SEED_PLACEHOLDER_ADMIN', 'admin', NULL, NULL, 1),
-('Jean-Paul Mwamba', 'student@monexamen.cd', '$2b$12$SEED_PLACEHOLDER_STUDENT', 'student', 3, 1, 1);
+('Jean-Paul Mwamba', 'student@monexamen.cd', '$2b$12$SEED_PLACEHOLDER_STUDENT', 'student', 3, 1, 1)
+ON CONFLICT (email) DO NOTHING;
 -- promotion_id=3 → Bac 2, department_id=1 → Génie Informatique
 
 -- ── Documents exemples ────────────────────────────────────
@@ -43,5 +48,5 @@ INSERT INTO documents (title, type, subject, promotion_id, department_id, year, 
 ('Examen — Réseaux Informatiques', 'examen', 'Réseaux', 4, 1, '2023-2024', 'Juin 2024', 'pending', '#', 'reseaux_examen_bac3_2024.pdf', '1.5 MB', 'Examen couvrant les protocoles TCP/IP, le routage et la sécurité réseau.', 2, '2025-05-10 09:00:00', NULL, NULL);
 
 -- ── Log initial ───────────────────────────────────────────
-INSERT INTO logs (type, action, user, date) VALUES
+INSERT INTO logs (type, action, "user", date) VALUES
 ('system', 'Démarrage système', 'Système', '2025-09-01 08:00:00');
