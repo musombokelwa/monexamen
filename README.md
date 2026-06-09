@@ -1,9 +1,6 @@
 # MonExamen — Plateforme Académique
 
-Bienvenue sur le projet **MonExamen**, une plateforme académique complète conçue pour centraliser, gérer et partager les examens et interrogations universitaires. Le système est construit avec une architecture moderne, séparant clairement le Frontend (interface utilisateur) du Backend (API et base de données).
-
----
-
+Bienvenue sur le projet **MonExamen**, une plateforme académique complète conçue pour centraliser, gérer et partager les examens et interrogations universitaires. Le système est construit avec une architecture moderne, séparant clairement le Frontend (interface utilisateur) du Backend (API et base de données)
 ## Fonctionnalités Principales
 
 - **Organisation Structurée :** Les documents sont triés par type (examen ou interrogation), par promotion (Préparatoire, Bac 1 à Master 2) et par département d'ingénierie.
@@ -16,9 +13,6 @@ Bienvenue sur le projet **MonExamen**, une plateforme académique complète con�
 - **Gestion de Session Persistante :** Utilisation de `localStorage` pour maintenir la session active même après actualisation de la page ou réouverture du navigateur.
 - **Inscription Fluide :** Redirection et connexion automatique de l'étudiant directement après la création de son compte.
 - **Détection Intelligente des Identifiants :** En cas d'erreur de mot de passe ou d'utilisateur inexistant à la connexion, l'utilisateur est automatiquement réorienté vers l'onglet d'inscription avec son email pré-rempli.
-
----
-
 ## Architecture du Projet
 
 Le projet est divisé en deux grandes parties :
@@ -35,8 +29,6 @@ Le projet est divisé en deux grandes parties :
    - Fournit une API RESTful (`/api/...`) qui gère la logique d'authentification, les documents, l'administration et le téléchargement de fichiers.
    - Connecté à une base de données **MySQL** pour assurer un stockage sécurisé et relationnel.
    - Les mots de passe sont hachés et sécurisés via `bcrypt`.
-
----
 
 ## Déploiement Rapide avec Docker (Recommandé)
 
@@ -55,8 +47,6 @@ Docker permet de lancer l'intégralité de l'application (Frontend Nginx, Backen
    docker-compose exec backend python seed_db.py
    ```
 3. Accédez à l'application dans votre navigateur à l'adresse suivante : **`http://localhost:8080`**.
-
----
 
 ## Lancement Local Classique (Alternative)
 
@@ -91,8 +81,6 @@ python app.py
 ### Étape 3 : Ouvrir l'Interface Utilisateur (Frontend)
 1. Ouvrez le dossier `Frontend` de votre projet.
 2. Double-cliquez sur le fichier **`index.html`** (ou lancez un serveur local comme Live Server) pour l'ouvrir dans votre navigateur.
-
----
 
 ## Comptes de Test Par Défaut
 
