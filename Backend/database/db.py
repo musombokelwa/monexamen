@@ -13,10 +13,10 @@ from psycopg2.extras import RealDictCursor
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
 DB_CONFIG = {
-    'host': os.environ.get('DB_HOST', 'localhost'),
+    'host': os.environ.get('DB_HOST', 'dpg-d8j33aojo6nc73dsgsbedag'),
     'dbname': os.environ.get('DB_NAME', 'monexamen'),
     'user': os.environ.get('DB_USER', 'jenos'),
-    'password': os.environ.get('DB_PASSWORD', 'Api@12345'),
+    'password': os.environ.get('DB_PASSWORD', 'b7d7OelIjqECapypNiOeUHxaQDWE3pMH'),
     'port': os.environ.get('DB_PORT', '5432'),
 }
 

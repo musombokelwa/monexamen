@@ -1,24 +1,24 @@
-# 🎉 DÉPLOIEMENT RENDER - RÉSUMÉ FINAL
+# DÉPLOIEMENT RENDER - RÉSUMÉ FINAL
 
-## ✅ TOUT EST PRÊT!
+## TOUT EST PRÊT!
 
 ### Code
-- ✅ GitHub `master` à jour
-- ✅ render.yaml configuré (3 services)
-- ✅ build.sh & start.sh prêts
-- ✅ Backend a CORS & flask-cors
-- ✅ 9 guides complets créés
-- ✅ Tous les fichiers pushés
+- GitHub `master` à jour
+- render.yaml configuré (3 services)
+- build.sh & start.sh prêts
+- Backend a CORS & flask-cors
+- 9 guides complets créés
+- Tous les fichiers pushés
 
 ### Votre Database
-- ✅ Nom: `monexamenn`
-- ✅ Password: `1234`
-- ✅ Utilisateur: `jenos`
-- ✅ Tables: etudiant, interro, examen, livre
+- Nom: `monexamenn`
+- Password: `1234`
+- Utilisateur: `jenos`
+- Tables: etudiant, interro, examen, livre
 
 ---
 
-## 🚀 3 ÉTAPES POUR DÉPLOYER
+## 3 ÉTAPES POUR DÉPLOYER
 
 ### ÉTAPE 1: Aller sur Render
 ```
@@ -88,7 +88,7 @@ git push origin master
 
 ---
 
-## 🔑 Les 3 Clés du Succès
+## Les 3 Clés du Succès
 
 | Clé | Valeur | Où | Pourquoi |
 |-----|--------|-----|---------|
@@ -219,10 +219,10 @@ PROCHAINE ÉTAPE: Aller sur https://dashboard.render.com
 
 ---
 
-## 🚀 GO!
+## GO!
 
 Allez à: **https://dashboard.render.com**
 
 Et suivez **[RENDER_FINAL_DEPLOYMENT.md](RENDER_FINAL_DEPLOYMENT.md)**
 
-Vous réussirez! 💪
+Vous réussirez!

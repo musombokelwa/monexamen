@@ -1,4 +1,4 @@
-# 🔴 DEPLOYMENT ERROR - HOW TO FIX IT
+# DEPLOYMENT ERROR - HOW TO FIX IT
 
 ## What Went Wrong?
 
@@ -11,7 +11,7 @@ Your deployment failed with:
 
 ---
 
-## ✅ THE FIX (3 Steps)
+## THE FIX (3 Steps)
 
 ### STEP 1: Delete Old Service on Render
 
@@ -36,10 +36,10 @@ git pull origin master
 ```
 
 **What was fixed:**
-- ✅ `render.yaml` - Now properly configured for 3 separate services
-- ✅ `build.sh` - Enhanced with error checking
-- ✅ `start.sh` - Correct port binding
-- ✅ `Frontend/js/data.js` - Better environment detection for Render
+- `render.yaml` - Now properly configured for 3 separate services
+- `build.sh` - Enhanced with error checking
+- `start.sh` - Correct port binding
+- `Frontend/js/data.js` - Better environment detection for Render
 
 ---
 
@@ -53,7 +53,7 @@ git push origin master
 
 ---
 
-## 🚀 NOW REDEPLOY (CORRECT WAY)
+## NOW REDEPLOY (CORRECT WAY)
 
 ### SERVICE 1: Create Database
 
@@ -65,7 +65,7 @@ git push origin master
    MySQL Version:      8.0
    ```
 3. Create Database
-4. ⏰ Wait ~1 minute
+4. Wait ~1 minute
 5. Go to `Connections` tab
 6. **COPY the hostname:** `xxxxx-mysql.render.com` (you'll need this!)
 
@@ -96,7 +96,7 @@ git push origin master
    ```
 
 6. Click `Create Web Service`
-7. ⏰ Wait ~5 minutes
+7. Wait ~5 minutes
 
 **Generate SECRET_KEY (run in terminal once):**
 ```bash
@@ -185,6 +185,6 @@ Your database values:
 
 ---
 
-## ✨ You've Got This!
+## You've Got This!
 
-The deployment is now fixed. Just follow the 3 deployment steps above and you'll be live in ~30 minutes! 🚀
+The deployment is now fixed. Just follow the 3 deployment steps above and you'll be live in ~30 minutes!

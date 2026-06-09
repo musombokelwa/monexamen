@@ -1,6 +1,6 @@
-# 🔧 WHAT HAPPENED & HOW TO FIX IT
+# WHAT HAPPENED & HOW TO FIX IT
 
-## ❌ Your Deployment Failed
+## Your Deployment Failed
 
 You saw this error in Render logs:
 ```
@@ -10,7 +10,7 @@ You saw this error in Render logs:
 
 ---
 
-## 🎯 Root Cause
+## Root Cause
 
 The **old Dockerfile** was used by Render instead of the correct configuration. 
 
@@ -23,41 +23,41 @@ This doesn't work well on Render!
 
 ---
 
-## ✅ What I Fixed
+## What I Fixed
 
 I've updated your configuration for **Render's multi-service architecture** (3 separate services):
 
 ### Files Updated:
 
-1. **render.yaml** ✅
+1. **render.yaml**
    - Now defines 3 separate services (Database, Backend, Frontend)
    - Database: MySQL (pserv)
    - Backend: Python Flask (web)
    - Frontend: Node Static (web)
 
-2. **build.sh** ✅
+2. **build.sh**
    - Added error handling
    - Better logging
    - Installs Backend dependencies correctly
 
-3. **start.sh** ✅
+3. **start.sh**
    - Fixed port binding
    - Simplified to just start Gunicorn
    - Works with Render's $PORT variable
 
-4. **Frontend/js/data.js** ✅
+4. **Frontend/js/data.js**
    - Enhanced environment detection
    - Detects localhost, Docker, and Render
    - Logs configuration for debugging
 
-5. **New Guides Created** ✅
+5. **New Guides Created**
    - **DEPLOYMENT_ERROR_FIX.md** - Explains what went wrong and how to fix
    - **CRITICAL_ENV_VARIABLES.md** - The 3 variables that MUST be perfect
    - **YOUR_DATABASE_CONFIG.md** - Your database values (monexamenn, 1234)
 
 ---
 
-## 🚀 WHAT YOU NEED TO DO
+## WHAT YOU NEED TO DO
 
 ### Step 1: Delete Old Broken Service (5 minutes)
 
@@ -134,7 +134,7 @@ In order of importance:
 
 ---
 
-## ✨ After You Redeploy
+## After You Redeploy
 
 Test that it works:
 
@@ -180,7 +180,7 @@ Test that it works:
 
 ---
 
-## ✅ YOU'RE READY!
+## YOU'RE READY!
 
 All files are fixed and on GitHub. 
 
@@ -188,4 +188,4 @@ All files are fixed and on GitHub.
 
 Then follow [RENDER_FINAL_DEPLOYMENT.md](RENDER_FINAL_DEPLOYMENT.md)
 
-**You've got this! 💪 🚀**
+**You've got this!**

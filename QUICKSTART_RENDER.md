@@ -1,13 +1,13 @@
 # MonExamen - Guide Quick Start Render
 
-## 🚀 Déployer en 3 étapes
+## Déployer en 3 étapes
 
-### 1️⃣ Connexion à Render
+### Connexion à Render
 1. Allez sur https://render.com
 2. Cliquez **"New Web Service"**
 3. Connectez votre GitHub (autorisez Render)
 
-### 2️⃣ Configuration (Copier-coller les valeurs)
+### Configuration (Copier-coller les valeurs)
 
 ```
 Name:                monexamen
@@ -18,7 +18,7 @@ Root Directory:      (vide)
 Instance:            Free
 ```
 
-### 3️⃣ Variables d'environnement
+### Variables d'environnement
 
 Cliquez **"Add Environment Variable"** et remplissez :
 
@@ -30,17 +30,17 @@ DB_PASSWORD    → votre-mot-de-passe
 SECRET_KEY     → (générez: python3 -c "import secrets; print(secrets.token_urlsafe(32))")
 ```
 
-### ✅ Cliquez "Create Web Service"
+### Cliquez "Create Web Service"
 
 ---
 
-## 📖 Documentation complète
+## Documentation complète
 
 Voir [RENDER_DEPLOYMENT.md](./RENDER_DEPLOYMENT.md)
 
 ---
 
-## 🔧 Configuration locale (pour tester)
+## Configuration locale (pour tester)
 
 ```bash
 # Backend

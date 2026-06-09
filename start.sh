@@ -1,12 +1,12 @@
 #!/bin/bash
 set -e
 
-echo "🚀 Starting MonExamen Backend on Render..."
+echo "Starting MonExamen Backend on Render..."
 echo ""
 
 # Get port from environment or default to 5000
 PORT=${PORT:-5000}
-echo "📡 Starting Gunicorn on port $PORT"
+echo "Starting Gunicorn on port $PORT"
 echo ""
 
 # Start the Flask application with Gunicorn

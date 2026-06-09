@@ -1,6 +1,6 @@
-# 🎯 RENDER DEPLOYMENT - FIXED VERSION
+# RENDER DEPLOYMENT - FIXED VERSION
 
-## ⚠️ DEPLOYMENT FAILED - BUT IT'S FIXED NOW!
+## DEPLOYMENT FAILED - BUT IT'S FIXED NOW!
 
 Your first deployment failed with:
 ```
@@ -14,18 +14,18 @@ Your first deployment failed with:
 
 ---
 
-## ✅ Your Fixed Configuration
+## Your Fixed Configuration
 
 The following files have been updated and pushed to GitHub:
 
-- ✅ `render.yaml` - Multi-service configuration
-- ✅ `build.sh` - Build script with error handling
-- ✅ `start.sh` - Startup script with proper port binding
-- ✅ `Frontend/js/data.js` - Environment detection for Render
+- `render.yaml` - Multi-service configuration
+- `build.sh` - Build script with error handling
+- `start.sh` - Startup script with proper port binding
+- `Frontend/js/data.js` - Environment detection for Render
 
 ---
 
-## 🚀 3 STEPS TO REDEPLOY (CORRECT WAY)
+## 3 STEPS TO REDEPLOY (CORRECT WAY)
 
 ### STEP 1: Delete Old Broken Service
 
@@ -35,7 +35,7 @@ The following files have been updated and pushed to GitHub:
 4. Go to `Settings`
 5. Scroll down → Click `Delete Service` (red button)
 6. Confirm deletion
-7. ⏰ Wait 1 minute
+7. Wait 1 minute
 
 ---
 
@@ -49,7 +49,7 @@ The following files have been updated and pushed to GitHub:
    MySQL Version:      8.0
    ```
 3. Click `Create Database`
-4. ⏰ Wait ~1 minute for it to be LIVE
+4. Wait ~1 minute for it to be LIVE
 5. **IMPORTANT:** Go to `Connections` tab and copy the hostname:
    ```
    xxxxx-mysql.render.com
@@ -89,7 +89,7 @@ python3 -c "import secrets; print(secrets.token_urlsafe(32))"
 Use the output as your SECRET_KEY value.
 
 6. Click `Create Web Service`
-7. ⏰ Wait ~5 minutes (it will build and start)
+7. Wait ~5 minutes (it will build and start)
 
 ---
 
@@ -108,41 +108,41 @@ Use the output as your SECRET_KEY value.
    ```
 5. Environment Variables: **SKIP** (leave completely empty)
 6. Click `Create Web Service`
-7. ⏰ Wait ~2 minutes
+7. Wait ~2 minutes
 
 ---
 
-## ✅ Verify All 3 Services Are LIVE
+## Verify All 3 Services Are LIVE
 
 On Render Dashboard, you should see:
 
 ```
-✅ monexamen-db        Status: LIVE (green)
-✅ monexamen-backend   Status: LIVE (green)
-✅ monexamen-frontend  Status: LIVE (green)
+monexamen-db        Status: LIVE (green)
+monexamen-backend   Status: LIVE (green)
+monexamen-frontend  Status: LIVE (green)
 ```
 
 If any shows RED or "failed": click it, check logs, verify environment variables.
 
 ---
 
-## 🧪 Test Your Deployment
+## Test Your Deployment
 
 1. Go to: `https://monexamen-frontend.onrender.com`
 2. Open Browser Console (F12)
 3. You should see:
    ```
-   🔧 API Configuration:
+   API Configuration:
      Environment: RENDER PRODUCTION
      API_BASE_URL: https://monexamen-backend.onrender.com/api
-   ✅ Configuration complete
+   Configuration complete
    ```
 4. Try to **login** with valid credentials
-5. If login works → **🎉 SUCCESS!**
+5. If login works > SUCCESS!
 
 ---
 
-## 📊 Your Database Values
+## Your Database Values
 
 ```
 Database Name:      monexamenn
@@ -196,8 +196,8 @@ Tables:             etudiant, interro, examen, livre
 
 ---
 
-## ✨ You're Ready!
+## You're Ready!
 
 All configuration files are fixed and on GitHub. Follow the 4 steps above and your MonExamen app will be live in ~30 minutes!
 
-**Good luck! 🚀**
+**Good luck!**

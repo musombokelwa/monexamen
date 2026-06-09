@@ -1,14 +1,14 @@
-# 📚 TOUS LES GUIDES DE DÉPLOIEMENT - SOMMAIRE COMPLET
+# TOUS LES GUIDES DE DÉPLOIEMENT - SOMMAIRE COMPLET
 
-## 🎯 PAR OÙ COMMENCER?
+## PAR OÙ COMMENCER?
 
-### 👤 "Je suis pressé, déploie-moi ça!"
-1. Lisez: **[RENDER_FINAL_DEPLOYMENT.md](RENDER_FINAL_DEPLOYMENT.md)** ⚡ (10 min)
+### "Je suis pressé, déploie-moi ça!"
+1. Lisez: **[RENDER_FINAL_DEPLOYMENT.md](RENDER_FINAL_DEPLOYMENT.md)** (10 min)
 2. Allez sur: https://dashboard.render.com
 3. Suivez les 3 étapes simples
-4. Done! 🚀
+4. Done!
 
-### 👨‍💼 "Je veux comprendre chaque détail"
+### "Je veux comprendre chaque détail"
 1. **[YOUR_REAL_ARCHITECTURE.md](YOUR_REAL_ARCHITECTURE.md)** - Comprendre l'architecture
 2. **[COMMUNICATION_FLOW.md](COMMUNICATION_FLOW.md)** - Comment tout communique
 3. **[DEPLOY_STEP_BY_STEP.md](DEPLOY_STEP_BY_STEP.md)** - Étapes détaillées
@@ -16,51 +16,51 @@
 
 ---
 
-## 📖 TOUS LES GUIDES (12 Fichiers)
+## TOUS LES GUIDES (12 Fichiers)
 
-### ⚡ Guides Rapides
+### Guides Rapides
 | Guide | Temps | Pour Qui? |
 |-------|-------|-----------|
 | **[RENDER_FINAL_DEPLOYMENT.md](RENDER_FINAL_DEPLOYMENT.md)** | 10 min | Tout le monde |
 | **[QUICK_COPY_PASTE.md](QUICK_COPY_PASTE.md)** | 5 min | Impatients |
 | **[QUICK_DEPLOY.md](QUICK_DEPLOY.md)** | 5 min | Vue rapide |
 
-### 📋 Guides Détaillés
+### Guides Détaillés
 | Guide | Contenu | Lecteurs |
 |-------|---------|----------|
 | **[DEPLOY_STEP_BY_STEP.md](DEPLOY_STEP_BY_STEP.md)** | Étapes exact Render Dashboard | Détail-orientés |
 | **[RENDER_ENV_SETUP.md](RENDER_ENV_SETUP.md)** | Configuration Dashboard | Sys admins |
 | **[RENDER_DEPLOYMENT.md](RENDER_DEPLOYMENT.md)** | Guide complet + CORS | Traditionnels |
 
-### 🔑 Variables d'Environnement
+### Variables d'Environnement
 | Guide | Sujet | Lecteurs |
 |-------|-------|----------|
-| **[CRITICAL_ENV_VARIABLES.md](CRITICAL_ENV_VARIABLES.md)** | Les 3 variables QUI DOIVENT marcher | ⭐ TOUT LE MONDE |
+| **[CRITICAL_ENV_VARIABLES.md](CRITICAL_ENV_VARIABLES.md)** | Les 3 variables QUI DOIVENT marcher | TOUT LE MONDE |
 | **[ENVIRONMENT_VARIABLES_GUIDE.md](ENVIRONMENT_VARIABLES_GUIDE.md)** | Explications complètes | Qui veut apprendre |
 | **[YOUR_DATABASE_CONFIG.md](YOUR_DATABASE_CONFIG.md)** | VOS vraies valeurs (1234, monexamenn) | Vous! |
 
-### 📊 Architecture & Flux
+### Architecture & Flux
 | Guide | Sujet | Lecteurs |
 |-------|-------|----------|
 | **[YOUR_REAL_ARCHITECTURE.md](YOUR_REAL_ARCHITECTURE.md)** | Architecture complète avec vos données | Visuels |
 | **[COMMUNICATION_FLOW.md](COMMUNICATION_FLOW.md)** | Flux de données entre services | Développeurs |
 | **[DEPLOYMENT_STRUCTURE.md](DEPLOYMENT_STRUCTURE.md)** | Structure des dossiers | Explorateurs |
 
-### ✅ Vérifications
+### Vérifications
 | Guide | Contenu | Lecteurs |
 |-------|---------|----------|
 | **[PRE_DEPLOY_CHECKLIST.md](PRE_DEPLOY_CHECKLIST.md)** | 20 points à vérifier | Perfectionnistes |
 
-### ⚙️ Config Locale
+### Config Locale
 | Fichier | Usage | Lecteurs |
 |---------|-------|----------|
 | **[.env.example](.env.example)** | Template développement local | Dev locaux |
 
 ---
 
-## 🎯 Guide de Lecture par Profil
+## Guide de Lecture par Profil
 
-### 👨‍💻 Developer (Veux tout savoir)
+### Developer (Veux tout savoir)
 ```
 1. YOUR_REAL_ARCHITECTURE.md       (20 min) ← Comprendre l'archi
 2. COMMUNICATION_FLOW.md            (15 min) ← Comment ça marche
@@ -70,7 +70,7 @@
    TOTAL: ~80 min
 ```
 
-### ⚙️ DevOps (Focus tech)
+### DevOps (Focus tech)
 ```
 1. CRITICAL_ENV_VARIABLES.md        (10 min)
 2. RENDER_ENV_SETUP.md             (15 min)
@@ -80,14 +80,14 @@
    TOTAL: ~60 min
 ```
 
-### 🚀 Manager (Veux c'est fait!)
+### Manager (Veux c'est fait!)
 ```
 1. QUICK_DEPLOY.md                 (5 min)  ← Vue rapide
 2. RENDER_FINAL_DEPLOYMENT.md       (10 min) ← Aller sur Render
    TOTAL: ~15 min
 ```
 
-### 📚 Étudiant (Veut comprendre)
+### Etudiant (Veut comprendre)
 ```
 1. YOUR_REAL_ARCHITECTURE.md        (20 min)
 2. COMMUNICATION_FLOW.md            (15 min)
@@ -99,7 +99,7 @@
 
 ---
 
-## 📍 Chercher Quelque Chose?
+## Chercher Quelque Chose?
 
 ### "Comment déployer?"
 → **[RENDER_FINAL_DEPLOYMENT.md](RENDER_FINAL_DEPLOYMENT.md)** ou **[DEPLOY_STEP_BY_STEP.md](DEPLOY_STEP_BY_STEP.md)**
@@ -124,34 +124,34 @@
 
 ---
 
-## 🔄 Ordre de Déploiement Recommandé
+## Ordre de Déploiement Recommandé
 
 ```
-✅ Étape 1: Lire
-   → RENDER_FINAL_DEPLOYMENT.md (10 min)
+Etape 1: Lire
+   > RENDER_FINAL_DEPLOYMENT.md (10 min)
 
-✅ Étape 2: Préparer
-   → PRE_DEPLOY_CHECKLIST.md (5 min)
+Etape 2: Préparer
+   > PRE_DEPLOY_CHECKLIST.md (5 min)
 
-✅ Étape 3: Déployer sur Render
-   → Database (1 min)
-   → Backend (5 min)
-   → Frontend (2 min)
-   → TOTAL: 8 min
+Etape 3: Déployer sur Render
+   > Database (1 min)
+   > Backend (5 min)
+   > Frontend (2 min)
+   > TOTAL: 8 min
 
-✅ Étape 4: Configurer Frontend
-   → Mettre à jour data.js (2 min)
-   → Git push (1 min)
+Etape 4: Configurer Frontend
+   > Mettre à jour data.js (2 min)
+   > Git push (1 min)
 
-✅ Étape 5: Tester
-   → Vérifier que tout marche (5 min)
+Etape 5: Tester
+   > Vérifier que tout marche (5 min)
 
-⏱️ TOTAL: ~30 min de début à fin!
+TOTAL: ~30 min de début à fin!
 ```
 
 ---
 
-## 🎯 Les 3 Guides ESSENTIELS
+## Les 3 Guides ESSENTIELS
 
 Si vous n'avez temps de lire que 3 guides:
 
@@ -166,10 +166,10 @@ Si vous n'avez temps de lire que 3 guides:
 
 ---
 
-## 📊 Fichiers Créés
+## Fichiers Créés
 
 ```
-📚 Documentation (12 fichiers + ce file):
+Documentation (12 fichiers + ce file):
 ├── RENDER_FINAL_DEPLOYMENT.md          ← START HERE!
 ├── DEPLOY_STEP_BY_STEP.md
 ├── RENDER_ENV_SETUP.md
@@ -182,11 +182,11 @@ Si vous n'avez temps de lire que 3 guides:
 ├── COMMUNICATION_FLOW.md
 ├── DEPLOYMENT_STRUCTURE.md
 ├── PRE_DEPLOY_CHECKLIST.md
-├── DEPLOYMENT_GUIDE_INDEX.md           ← Older version
-├── RENDER_CONFIG_GUIDE.md              ← Older version
-└── DEPLOYMENT_GUIDE_INDEX.md           ← This file
+├── DEPLOYMENT_GUIDE_INDEX.md           - Older version
+├── RENDER_CONFIG_GUIDE.md              - Older version
+└── DEPLOYMENT_GUIDE_INDEX.md           - This file
 
-⚙️ Configuration:
+Configuration:
 ├── render.yaml                         ← Multi-services config
 ├── build.sh                            ← Build script
 ├── start.sh                            ← Start script
@@ -196,7 +196,7 @@ Si vous n'avez temps de lire que 3 guides:
 
 ---
 
-## ✅ Avant de Déployer
+## Avant de Déployer
 
 Vérifiez:
 - [ ] GitHub repo updated (`git push origin master`)
@@ -211,7 +211,7 @@ Allez à: **[PRE_DEPLOY_CHECKLIST.md](PRE_DEPLOY_CHECKLIST.md)**
 
 ---
 
-## 🎉 C'est Fini!
+## C'est Fini!
 
 Vos services tournent à:
 ```
@@ -222,9 +222,9 @@ Database: monexamenn (interne)
 
 ---
 
-## 📞 Support Rapide
+## Support Rapide
 
-**Q: "Ça marche pas!"**
+**Q: "Ça marche pas!"****
 → Consultez **[DEPLOY_STEP_BY_STEP.md](DEPLOY_STEP_BY_STEP.md)** section "Troubleshooting"
 
 **Q: "Quel mot de passe?"**
@@ -235,6 +235,6 @@ Database: monexamenn (interne)
 
 ---
 
-## 🚀 ALLEZ! 
+## ALLEZ! 
 
 **Commencez par:** [RENDER_FINAL_DEPLOYMENT.md](RENDER_FINAL_DEPLOYMENT.md)
