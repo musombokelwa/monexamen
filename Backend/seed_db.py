@@ -10,7 +10,7 @@ def seed_database():
     for i in range(15):
         try:
             if DATABASE_URL:
-                conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+                conn = psycopg2.connect(DATABASE_URL)
             else:
                 conn = psycopg2.connect(**DB_CONFIG)
             break
