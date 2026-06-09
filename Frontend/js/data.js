@@ -11,21 +11,21 @@ console.log('  Hostname:', window.location.hostname);
 console.log('  Port:', window.location.port);
 
 if (window.location.protocol === 'file:' || window.location.port === '3000' || window.location.port === '5173') {
-    // Local development
-    API_BASE_URL = 'http://localhost:5000/api';
-    console.log('  Environment: LOCAL DEVELOPMENT');
+  // Local development
+  API_BASE_URL = 'http://localhost:5000/api';
+  console.log('  Environment: LOCAL DEVELOPMENT');
 } else if (window.location.hostname.includes('onrender.com')) {
-    // Render production
-    API_BASE_URL = 'https://monexamen-backend.onrender.com/api';
-    console.log('  Environment: RENDER PRODUCTION');
+  // Render production
+  API_BASE_URL = 'https://monexamen-backend.onrender.com/api';
+  console.log('  Environment: RENDER PRODUCTION');
 } else if (window.location.hostname === 'localhost') {
-    // Docker local
-    API_BASE_URL = 'http://localhost:5000/api';
-    console.log('  Environment: DOCKER LOCAL');
+  // Docker local
+  API_BASE_URL = 'http://localhost:5000/api';
+  console.log('  Environment: DOCKER LOCAL');
 } else {
-    // Fallback to same domain
-    API_BASE_URL = '/api';
-    console.log('  Environment: SAME DOMAIN');
+  // Fallback to same domain
+  API_BASE_URL = '/api';
+  console.log('  Environment: SAME DOMAIN');
 }
 
 console.log('  API_BASE_URL:', API_BASE_URL);
@@ -33,11 +33,11 @@ console.log('✅ Configuration complete\n');
 
 const PROMOTIONS = [
   { id: 1, label: 'Préparatoire', departments: null },
-  { id: 2, label: 'Bac 1',        departments: [1, 2, 3, 4] },
-  { id: 3, label: 'Bac 2',        departments: [1, 2, 3, 4] },
-  { id: 4, label: 'Bac 3',        departments: [1, 2, 3, 4] },
-  { id: 5, label: 'Master 1',     departments: [1, 2, 3, 4] },
-  { id: 6, label: 'Master 2',     departments: [1, 2, 3, 4] },
+  { id: 2, label: 'Bac 1', departments: [1, 2, 3, 4] },
+  { id: 3, label: 'Bac 2', departments: [1, 2, 3, 4] },
+  { id: 4, label: 'Bac 3', departments: [1, 2, 3, 4] },
+  { id: 5, label: 'Master 1', departments: [1, 2, 3, 4] },
+  { id: 6, label: 'Master 2', departments: [1, 2, 3, 4] },
 ];
 
 const DEPARTMENTS = {
@@ -48,12 +48,12 @@ const DEPARTMENTS = {
 };
 
 const DOC_TYPES = {
-  examen:         'Examen',
-  interrogation:  'Interrogation',
+  examen: 'Examen',
+  interrogation: 'Interrogation',
 };
 
 const STATUS = {
-  pending:  'En attente',
+  pending: 'En attente',
   approved: 'Publié',
   rejected: 'Refusé',
 };
@@ -75,15 +75,15 @@ const Auth = {
         body: JSON.stringify({ email, password })
       });
       const data = await res.json();
-      
+
       if (!res.ok) {
         return { success: false, error: data.message || 'Erreur de connexion.' };
       }
-      
+
       if (!data.user.approved) {
         return { success: false, error: 'Votre compte est en attente de validation.' };
       }
-      
+
       localStorage.setItem(SESSION_KEY, JSON.stringify({
         token: data.token,
         userId: data.user.id,
@@ -98,9 +98,9 @@ const Auth = {
 
   logout() {
     localStorage.removeItem(SESSION_KEY);
-    const isInsideFolder = window.location.pathname.includes('/admin/') || 
-                           window.location.pathname.includes('/superadmin/') || 
-                           window.location.pathname.includes('/student/');
+    const isInsideFolder = window.location.pathname.includes('/admin/') ||
+      window.location.pathname.includes('/superadmin/') ||
+      window.location.pathname.includes('/student/');
     window.location.href = isInsideFolder ? '../login.html' : 'login.html';
   },
 
@@ -172,7 +172,7 @@ const API = {
     const data = await this._fetch('/superadmin/users');
     return data.users || [];
   },
-  
+
   async createAdmin(data) {
     return await this._fetch('/superadmin/create-admin', {
       method: 'POST',
@@ -198,7 +198,7 @@ const API = {
     // Determine route based on role
     const user = Auth.getCurrentUser();
     if (!user) return [];
-    
+
     let endpoint = '/documents'; // public/general ? No, backend says /documents but admin/student have specific
     if (user.role === 'student') {
       endpoint = '/student/documents';
@@ -246,7 +246,7 @@ const API = {
     const user = Auth.getCurrentUser();
     let endpoint = `/documents/${id}`; // default
     if (user && user.role === 'admin') {
-       endpoint = `/admin/document/${id}`;
+      endpoint = `/admin/document/${id}`;
     }
     return await this._fetch(endpoint, { method: 'DELETE' });
   },
@@ -271,8 +271,8 @@ function showToast(type, title, message, duration = 4000) {
 
   const icons = {
     success: '<i class="fas fa-check-circle"></i>',
-    error:   '<i class="fas fa-times-circle"></i>',
-    info:    '<i class="fas fa-info-circle"></i>',
+    error: '<i class="fas fa-times-circle"></i>',
+    info: '<i class="fas fa-info-circle"></i>',
     warning: '<i class="fas fa-exclamation-triangle"></i>',
   };
 
