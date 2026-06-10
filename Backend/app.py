@@ -67,7 +67,7 @@ def create_app():
             "status": "healthy" if db_ok else "degraded",
             "service": "monexamen-api",
             "database": "connected" if db_ok else "disconnected"
-        }), 200 if db_ok else 503
+        }), 200
 
     @app.errorhandler(404)
     def not_found(error):
