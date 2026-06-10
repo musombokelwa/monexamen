@@ -13,7 +13,7 @@ const _host = window.location.hostname;
 const _port = window.location.port;
 const _proto = window.location.protocol;
 
-console.log('🔧 API Configuration:');
+console.log(' API Configuration:');
 console.log('  Protocol:', _proto);
 console.log('  Hostname:', _host);
 console.log('  Port:', _port);
@@ -43,7 +43,7 @@ if (typeof window.BACKEND_URL === 'string' && window.BACKEND_URL.startsWith('htt
 }
 
 console.log('  API_BASE_URL:', API_BASE_URL);
-console.log('✅ Configuration complete\n');
+console.log(' Configuration complete\n');
 
 const PROMOTIONS = [
   { id: 1, label: 'Préparatoire', departments: null },

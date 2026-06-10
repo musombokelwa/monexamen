@@ -196,7 +196,7 @@ function renderPendingList() {
   const container = document.getElementById('pendingList');
   if (!pending.length) {
     container.innerHTML = `<div class="empty-state">
-      <div class="empty-state-icon">✅</div>
+      <div class="empty-state-icon"></div>
       <div class="empty-state-title">Aucun document en attente</div>
       <div class="empty-state-desc">Tous les documents soumis ont été traités.</div>
     </div>`;
