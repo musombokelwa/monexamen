@@ -16,7 +16,10 @@ from psycopg2.extras import RealDictCursor
 
 # ── Configuration ──────────────────────────────────────────
 # Support both DATABASE_URL (Render provides this) and individual vars
-DATABASE_URL = os.environ.get('DATABASE_URL')
+DATABASE_URL = os.environ.get(
+    'DATABASE_URL', 
+    'postgresql://jenos:b7d7OelIjqECapypNiOeUHxaQDWE3pMH@dpg-d8j33aojo6nc73dsgbeg-a/monexamen'
+)
 
 # Render fournit postgres:// mais psycopg2 exige postgresql://
 if DATABASE_URL and DATABASE_URL.startswith('postgres://'):
