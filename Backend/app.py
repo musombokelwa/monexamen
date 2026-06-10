@@ -1,9 +1,9 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 from config import Config
+import os
 
 # Import controllers (which contain blueprints)
-# We will create these shortly
 from routes.auth_routes import auth_bp
 from routes.document_routes import document_bp
 from routes.student_routes import student_bp
@@ -14,8 +14,27 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     
-    # Enable CORS for all routes, allowing credentials if needed
-    CORS(app)
+    # CORS configuration: allow all onrender.com subdomains + localhost for dev
+    allowed_origins = [
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://localhost:8080",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:5000",
+    ]
+    # Add any custom frontend URL from environment variable
+    frontend_url = os.environ.get('FRONTEND_URL', '')
+    if frontend_url:
+        allowed_origins.append(frontend_url.rstrip('/'))
+
+    CORS(app, resources={
+        r"/api/*": {
+            "origins": allowed_origins,
+            "allow_headers": ["Content-Type", "Authorization"],
+            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+            "supports_credentials": True,
+        }
+    }, origins="*")  # wildcard fallback for onrender.com dynamic subdomains
     
     # Register Blueprints
     app.register_blueprint(auth_bp, url_prefix='/api')

@@ -2,30 +2,44 @@
    MON EXAMEN — API Data Store (Fetch to Flask Backend)
    ============================================================ */
 
-// Environment Detection for API URL
+// ── API URL Configuration ─────────────────────────────────
+// Priority order:
+//   1. window.BACKEND_URL  (injected by config.js on Render build)
+//   2. Environment detection via hostname / port
+//   3. Fallback: /api (same domain, works with nginx reverse-proxy)
 let API_BASE_URL;
 
-console.log('🔧 API Configuration:');
-console.log('  Protocol:', window.location.protocol);
-console.log('  Hostname:', window.location.hostname);
-console.log('  Port:', window.location.port);
+const _host = window.location.hostname;
+const _port = window.location.port;
+const _proto = window.location.protocol;
 
-if (window.location.protocol === 'file:' || window.location.port === '3000' || window.location.port === '5173') {
-  // Local development
+console.log('🔧 API Configuration:');
+console.log('  Protocol:', _proto);
+console.log('  Hostname:', _host);
+console.log('  Port:', _port);
+
+if (typeof window.BACKEND_URL === 'string' && window.BACKEND_URL.startsWith('http')) {
+  // Injected at build time by config.js (Render static site with env var)
+  API_BASE_URL = window.BACKEND_URL.replace(/\/$/, '') + '/api';
+  console.log('  Environment: RENDER (injected BACKEND_URL)');
+} else if (_proto === 'file:' || _port === '3000' || _port === '5173' || _port === '8080') {
+  // Local development (direct file open or dev server)
   API_BASE_URL = 'http://localhost:5000/api';
   console.log('  Environment: LOCAL DEVELOPMENT');
-} else if (window.location.hostname.includes('onrender.com')) {
-  // Render production
-  API_BASE_URL = 'https://monexamen-backend.onrender.com/api';
-  console.log('  Environment: RENDER PRODUCTION');
-} else if (window.location.hostname === 'localhost') {
-  // Docker local
-  API_BASE_URL = 'http://localhost:5000/api';
-  console.log('  Environment: DOCKER LOCAL');
-} else {
-  // Fallback to same domain
+} else if (_host === 'localhost' || _host === '127.0.0.1') {
+  // Docker or nginx local (port 80)
   API_BASE_URL = '/api';
-  console.log('  Environment: SAME DOMAIN');
+  console.log('  Environment: DOCKER / NGINX LOCAL');
+} else if (_host.includes('onrender.com')) {
+  // Render static frontend — derive backend URL from frontend URL
+  // e.g.: monexamen-frontend.onrender.com → monexamen-backend.onrender.com
+  const backendHost = _host.replace('-frontend', '-backend');
+  API_BASE_URL = `${_proto}//${backendHost}/api`;
+  console.log('  Environment: RENDER PRODUCTION (derived)');
+} else {
+  // Custom domain or unknown — use same-domain proxy
+  API_BASE_URL = '/api';
+  console.log('  Environment: SAME DOMAIN / CUSTOM');
 }
 
 console.log('  API_BASE_URL:', API_BASE_URL);
