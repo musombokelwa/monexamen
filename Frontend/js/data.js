@@ -3,47 +3,36 @@
    ============================================================ */
 
 // ── API URL Configuration ─────────────────────────────────
-// Priority order:
-//   1. window.BACKEND_URL  (injected by config.js on Render build)
-//   2. Environment detection via hostname / port
-//   3. Fallback: /api (same domain, works with nginx reverse-proxy)
+// Architecture: service Docker unifié (Nginx + Gunicorn sur même domaine)
+//   - Local dev (port 3000/5173/8080/file:) → http://localhost:5000/api
+//   - Production (Render, domaine custom, nginx) → /api (proxy Nginx)
 let API_BASE_URL;
 
-const _host = window.location.hostname;
-const _port = window.location.port;
-const _proto = window.location.protocol;
-
-console.log(' API Configuration:');
-console.log('  Protocol:', _proto);
-console.log('  Hostname:', _host);
-console.log('  Port:', _port);
-
-if (typeof window.BACKEND_URL === 'string' && window.BACKEND_URL.startsWith('http')) {
-  // Injected at build time by config.js (Render static site with env var)
+// 1. Check if build.sh injected a BACKEND_URL (Render build step)
+if (window.BACKEND_URL) {
   API_BASE_URL = window.BACKEND_URL.replace(/\/$/, '') + '/api';
-  console.log('  Environment: RENDER (injected BACKEND_URL)');
-} else if (_proto === 'file:' || _port === '3000' || _port === '5173' || _port === '8080') {
-  // Local development (direct file open or dev server)
-  API_BASE_URL = 'http://localhost:5000/api';
-  console.log('  Environment: LOCAL DEVELOPMENT');
-} else if (_host === 'localhost' || _host === '127.0.0.1') {
-  // Docker or nginx local (port 80)
-  API_BASE_URL = '/api';
-  console.log('  Environment: DOCKER / NGINX LOCAL');
-} else if (_host.includes('onrender.com')) {
-  // Render static frontend — derive backend URL from frontend URL
-  // e.g.: monexamen-frontend.onrender.com → monexamen-backend.onrender.com
-  const backendHost = _host.replace('-frontend', '-backend');
-  API_BASE_URL = `${_proto}//${backendHost}/api`;
-  console.log('  Environment: RENDER PRODUCTION (derived)');
 } else {
-  // Custom domain or unknown — use same-domain proxy
-  API_BASE_URL = '/api';
-  console.log('  Environment: SAME DOMAIN / CUSTOM');
+  const _proto = window.location.protocol;
+  const _port = window.location.port;
+
+  // 2. Local development detection
+  const isLocalDev = (
+    _proto === 'file:' ||
+    _port === '3000' ||
+    _port === '5173' ||
+    _port === '8080' ||
+    _port === '5500'  // VS Code Live Server
+  );
+
+  if (isLocalDev) {
+    API_BASE_URL = 'http://localhost:5000/api';
+  } else {
+    // 3. Production: Nginx proxies /api to Gunicorn on the same host
+    API_BASE_URL = '/api';
+  }
 }
 
-console.log('  API_BASE_URL:', API_BASE_URL);
-console.log(' Configuration complete\n');
+console.log('[MonExamen] API_BASE_URL =', API_BASE_URL);
 
 const PROMOTIONS = [
   { id: 1, label: 'Préparatoire', departments: null },

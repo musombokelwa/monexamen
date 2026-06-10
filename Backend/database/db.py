@@ -4,6 +4,12 @@ Provides get_connection() for raw PostgreSQL access and get_db() for model compa
 """
 
 import os
+from dotenv import load_dotenv
+
+# Charger .env avant de lire les variables d'environnement
+# (nécessaire quand db.py est importé avant config.py)
+load_dotenv()
+
 import psycopg2
 from psycopg2 import Error
 from psycopg2.extras import RealDictCursor
@@ -11,6 +17,10 @@ from psycopg2.extras import RealDictCursor
 # ── Configuration ──────────────────────────────────────────
 # Support both DATABASE_URL (Render provides this) and individual vars
 DATABASE_URL = os.environ.get('DATABASE_URL')
+
+# Render fournit postgres:// mais psycopg2 exige postgresql://
+if DATABASE_URL and DATABASE_URL.startswith('postgres://'):
+    DATABASE_URL = DATABASE_URL.replace('postgres://', 'postgresql://', 1)
 
 DB_CONFIG = {
     'host': os.environ.get('DB_HOST', 'dpg-d8j33aojo6nc73dsgbeg-a'),
@@ -30,7 +40,10 @@ def get_connection():
             conn = psycopg2.connect(**DB_CONFIG)
         return conn
     except Error as e:
-        print(f"Erreur lors de la connexion : {e}")
+        print(f"[DB ERROR] Erreur lors de la connexion : {e}")
+        print(f"[DB ERROR] DATABASE_URL set: {bool(DATABASE_URL)}")
+        if not DATABASE_URL:
+            print(f"[DB ERROR] Config: host={DB_CONFIG['host']}, dbname={DB_CONFIG['dbname']}, user={DB_CONFIG['user']}")
         return None
 
 

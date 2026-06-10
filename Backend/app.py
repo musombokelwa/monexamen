@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from config import Config
 import os
+import re
 
 # Import controllers (which contain blueprints)
 from routes.auth_routes import auth_bp
@@ -19,8 +20,10 @@ def create_app():
         "http://localhost:3000",
         "http://localhost:5173",
         "http://localhost:8080",
+        "http://localhost:5500",
         "http://127.0.0.1:3000",
         "http://127.0.0.1:5000",
+        r"https://.*\.onrender\.com",
     ]
     # Add any custom frontend URL from environment variable
     frontend_url = os.environ.get('FRONTEND_URL', '')
@@ -49,8 +52,22 @@ def create_app():
 
     @app.route('/api/health', methods=['GET'])
     def health():
-        """Health check endpoint for monitoring"""
-        return jsonify({"status": "healthy", "service": "monexamen-api"}), 200
+        """Health check endpoint for monitoring — also tests DB connectivity"""
+        from database.db import get_connection
+        db_ok = False
+        try:
+            conn = get_connection()
+            if conn:
+                db_ok = True
+                conn.close()
+        except Exception as e:
+            print(f"[HEALTH] DB check failed: {e}")
+
+        return jsonify({
+            "status": "healthy" if db_ok else "degraded",
+            "service": "monexamen-api",
+            "database": "connected" if db_ok else "disconnected"
+        }), 200 if db_ok else 503
 
     @app.errorhandler(404)
     def not_found(error):
@@ -65,4 +82,9 @@ def create_app():
 app = create_app()
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    port = int(os.environ.get('PORT', 5000))
+    print(f"[MonExamen] Starting Flask dev server on 0.0.0.0:{port}")
+    print(f"[MonExamen] FLASK_ENV={os.environ.get('FLASK_ENV', 'development')}")
+    print(f"[MonExamen] DATABASE_URL set: {bool(os.environ.get('DATABASE_URL'))}")
+    app.run(debug=True, host='0.0.0.0', port=port)
+
