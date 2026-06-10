@@ -329,7 +329,7 @@
         btn.disabled = false;
         spinner.classList.add('hidden');
         btn.querySelector('.btn-text').style.opacity = '1';
-        showToast('error', 'Erreur', 'Erreur de connexion au serveur.');
+        showToast('error', 'Erreur', 'Erreur de connexion au serveur : ' + err.message);
       }
     }
 

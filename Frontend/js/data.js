@@ -95,7 +95,8 @@ const Auth = {
       }));
       return { success: true, user: data.user };
     } catch (e) {
-      return { success: false, error: 'Erreur réseau.' };
+      console.error("Login fetch error:", e);
+      return { success: false, error: 'Erreur réseau : ' + e.message };
     }
   },
 
